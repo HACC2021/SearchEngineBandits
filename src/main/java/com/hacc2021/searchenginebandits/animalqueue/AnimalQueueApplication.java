@@ -8,5 +8,4 @@ public class AnimalQueueApplication {
     public static void main(String[] args) {
         SpringApplication.run(AnimalQueueApplication.class, args);
     }
-
 }
