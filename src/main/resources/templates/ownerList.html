@@ -1,0 +1,16 @@
+<table>
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Email address</td>
+        <td>Phone number</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="owner: ${owners}">
+        <td th:text="${owner.name}"/>
+        <td th:text="${owner.emailAddress}"/>
+        <td th:text="${owner.phoneNumber}"/>
+    </tr>
+    </tbody>
+</table>
