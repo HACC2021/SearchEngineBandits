@@ -1,22 +1,38 @@
 package com.hacc2021.searchenginebandits.animalqueue.model;
 
 public enum StateType {
-    HEALTH_CHECK_PASSED("%s just passed the health check.", 1),
-    COLLECTION_TIME_REQUESTED("%s requested to collect %s at %s.", 3),
-    COLLECTED("%s was collected ad %s.", 2);
+    HEALTH_CHECK_PASSED((owner, pet, quarantine, state) -> String.format("%s just passed the health check.",
+                                                                         pet.getName())),
+    COLLECTION_TIME_REQUESTED((owner, pet, quarantine, state) -> String.format(
+            "%s requested to collect %s on %tD at %tR.",
+            owner.getName(),
+            pet.getName(),
+            state.getPayloadDateTime(),
+            state.getPayloadDateTime())),
+    COLLECTED((owner, pet, quarantine, state) -> String.format("%s was collected on %tD at %tR.",
+                                                               pet.getName(),
+                                                               state.getCreation(),
+                                                               state.getCreation()));
 
-    private final String message;
+    private final MessageSupplier messageSupplier;
 
-    private final int numberOfArguments;
-
-    StateType(String message, int numberOfArguments) {
-        this.message = message;
-        this.numberOfArguments = numberOfArguments;
+    StateType(final MessageSupplier messageSupplier) {
+        this.messageSupplier = messageSupplier;
     }
 
-    public String getMessage(final Object... arguments) {
-        if (arguments.length != numberOfArguments)
-            throw new IllegalArgumentException("Wrong number of arguments.");
-        return String.format(message, arguments);
+    public String createMessage(final State state) {
+        return messageSupplier.supply(state);
+    }
+
+    @FunctionalInterface
+    interface MessageSupplier {
+        default String supply(final State state) {
+            final Quarantine quarantine = state.getQuarantine();
+            final Pet pet = quarantine.getPet();
+            final Owner owner = pet.getOwner();
+            return supply(owner, pet, quarantine, state);
+        }
+
+        String supply(Owner owner, Pet pet, Quarantine quarantine, State state);
     }
 }

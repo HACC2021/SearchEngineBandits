@@ -1,6 +1,5 @@
 package com.hacc2021.searchenginebandits.animalqueue.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "PET")
 public class Pet extends AbstractEntity {
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
     private Owner owner;
 
@@ -28,7 +27,7 @@ public class Pet extends AbstractEntity {
     @OneToMany(mappedBy = "pet")
     private List<Quarantine> quarantines = new ArrayList<>();
 
-    public Pet(Owner owner, String name, String chipNo) {
+    public Pet(final Owner owner, final String name, final String chipNo) {
         this.owner = owner;
         this.name = name;
         this.chipNo = chipNo;

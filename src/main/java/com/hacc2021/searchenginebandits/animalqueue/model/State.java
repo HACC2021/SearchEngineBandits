@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "STATE")
 public class State extends AbstractEntity {
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "QUARANTINE_ID")
     private Quarantine quarantine;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "TYPE", length = 50, nullable = false)
     private StateType type;
 
@@ -26,14 +26,18 @@ public class State extends AbstractEntity {
 
     @Column(name = "PAYLOAD_TEXT")
     private String payloadText;
-    
+
     @Column(name = "PAYLOAD_DATETIME")
     private LocalDateTime payloadDateTime;
 
-    public State(Quarantine quarantine, StateType type, LocalDateTime creation) {
+    public State(final Quarantine quarantine, final StateType type, final LocalDateTime creation) {
         this.quarantine = quarantine;
         this.type = type;
         this.creation = creation;
+    }
+
+    public String getMessage() {
+        return type.createMessage(this);
     }
 
 }
