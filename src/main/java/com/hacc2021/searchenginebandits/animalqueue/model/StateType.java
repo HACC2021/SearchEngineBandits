@@ -1,18 +1,14 @@
 package com.hacc2021.searchenginebandits.animalqueue.model;
 
 public enum StateType {
-    HEALTH_CHECK_PASSED((owner, pet, quarantine, state) -> String.format("%s just passed the health check.",
-                                                                         pet.getName())),
+    HEALTH_CHECK_PASSED((owner, pet, quarantine, state) -> String.format("%s passed the health check.", pet.getName())),
     COLLECTION_TIME_REQUESTED((owner, pet, quarantine, state) -> String.format(
             "%s requested to collect %s on %tD at %tR.",
             owner.getName(),
             pet.getName(),
             state.getPayloadDateTime(),
             state.getPayloadDateTime())),
-    COLLECTED((owner, pet, quarantine, state) -> String.format("%s was collected on %tD at %tR.",
-                                                               pet.getName(),
-                                                               state.getCreation(),
-                                                               state.getCreation()));
+    COLLECTED((owner, pet, quarantine, state) -> String.format("%s was collected.", pet.getName()));
 
     private final MessageSupplier messageSupplier;
 

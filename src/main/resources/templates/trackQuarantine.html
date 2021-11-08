@@ -1,7 +1,7 @@
 <h1 th:text="'Track quarantine of ' + ${quarantine.pet.name}"/>
 
 <div th:each="state: ${quarantine.states}">
-    <p th:text="${state.message}"/>
+    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}+ ': ' + ${state.message}"/>
 </div>
 
 <a href="/track">Back to tracking</a>
