@@ -1,20 +1,20 @@
 package com.hacc2021.searchenginebandits.animalqueue.service;
 
-import java.util.List;
-import javax.transaction.Transactional;
+import com.hacc2021.searchenginebandits.animalqueue.model.Owner;
+import com.hacc2021.searchenginebandits.animalqueue.repository.OwnerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hacc2021.searchenginebandits.animalqueue.repository.OwnerRepository;
-import com.hacc2021.searchenginebandits.animalqueue.model.Owner;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class OwnerServiceImpl implements OwnerService {
     final OwnerRepository ownerRepository;
 
-    public OwnerServiceImpl(@Autowired final OwnerRepository ownerRepository) {
-        this.ownerRepository = ownerRepository;
-    }
 
     @Override
     public void createOwner(final String name) {

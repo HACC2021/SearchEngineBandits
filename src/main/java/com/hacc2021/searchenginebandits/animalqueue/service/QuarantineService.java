@@ -5,5 +5,7 @@ import com.hacc2021.searchenginebandits.animalqueue.model.Quarantine;
 import java.util.Optional;
 
 public interface QuarantineService {
-    Optional<Quarantine> getQuarantine(String trackingNo);
+    Optional<Quarantine> findById(int id);
+
+    Optional<Quarantine> findByTrackingNo(String trackingNo);
 }

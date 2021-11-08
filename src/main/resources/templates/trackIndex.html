@@ -5,16 +5,8 @@
     <p th:case="*">Tracking No. invalid</p>
 </div>
 
-<form onsubmit="return track()">
+<form method="get">
     <label for="trackingNo">Tracking No.</label>
-    <input id="trackingNo" type="text" th:value="${trackingNo}">
+    <input id="trackingNo" name="trackingNo" type="text" th:value="${trackingNo}">
     <button type="submit">Track</button>
 </form>
-
-<script>
-    function track() {
-        let inputField = document.getElementById('trackingNo');
-        location.href = '/track/' + inputField.value;
-        return false;
-    }
-</script>

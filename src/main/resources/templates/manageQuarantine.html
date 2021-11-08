@@ -1,0 +1,53 @@
+<h1 th:text="'Manage quarantine of ' + ${quarantine.pet.name}"/>
+
+<div th:each="state: ${quarantine.states}">
+    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}+ ': ' + ${state.message}"/>
+</div>
+
+<script th:inline="javascript">
+    function showPayload(selectedOption) {
+        changeFieldVisibility(selectedOption.dataset.hpt === "true", selectedOption.dataset.ptn, "payloadText", "payloadTextLabel");
+        changeFieldVisibility(selectedOption.dataset.hpdt === "true", selectedOption.dataset.pdtn, "payloadDateTime", "payloadDateTimeLabel");
+    }
+
+    function changeFieldVisibility(hasField, fieldName, fieldId, fieldLabelId) {
+        let field = document.getElementById(fieldId);
+        let fieldLabel = document.getElementById(fieldLabelId);
+        if (hasField) {
+            field.style.display = "block";
+            fieldLabel.innerText = fieldName;
+        } else {
+            field.style.display = "none";
+            fieldLabel.innerText = "";
+        }
+    }
+</script>
+
+<form method="post">
+    <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}"/>
+
+    <label for="succeedingState">Succeeding state</label>
+    <select id="succeedingState"
+            name="succeedingState"
+            onchange="showPayload(this.options[this.selectedIndex])"
+            style="display: block">
+        <option disabled selected>Select succeeding state</option>
+        <option th:each="possibleSuccessor: ${currentState.type.possibleSuccessors}"
+                th:value="${possibleSuccessor.name}"
+                th:text="${possibleSuccessor.displayName}"
+                th:attr="data-hpt=${possibleSuccessor.hasPayloadText},data-ptn=${possibleSuccessor.payloadTextName},data-hpdt=${possibleSuccessor.hasPayloadDateTime},data-pdtn=${possibleSuccessor.payloadDateTimeName}"/>
+    </select>
+
+    <label id="payloadTextLabel" for="payloadText"></label>
+    <textarea id="payloadText" name="payloadText" style="display: none" maxlength="255"></textarea>
+
+    <label id="payloadDateTimeLabel" for="payloadDateTime"></label>
+    <input id="payloadDateTime" name="payloadDateTime" type="datetime-local" style="display: none"/>
+
+    <button type="submit">Submit</button>
+</form>
+
+<a href="/track">Back to tracking</a>

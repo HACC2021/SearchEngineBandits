@@ -8,31 +8,28 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
 @Controller
 @EnableAutoConfiguration
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class QuarantineTrackingController {
-    @Autowired
     final QuarantineService quarantineService;
 
     @GetMapping("/track")
-    public String trackIndex(final Model model) {
-        model.addAttribute("trackingNo", "");
-        return "trackIndex";
-    }
-
-    @GetMapping("/track/{trackingNo}")
-    public String trackQuarantine(@PathVariable("trackingNo") final String trackingNo, final Model model) {
-        final Optional<Quarantine> quarantine = quarantineService.getQuarantine(trackingNo);
-        if (quarantine.isPresent()) {
-            model.addAttribute("quarantine", quarantine.get());
-            return "trackQuarantine";
-        }
+    public String trackQuarantine(@RequestParam(value = "trackingNo", defaultValue = "") final String trackingNo,
+                                  final Model model) {
         model.addAttribute("trackingNo", trackingNo);
-        return "trackIndex";
+        if (trackingNo.isBlank()) {
+            return "trackIndex";
+        }
+        final Optional<Quarantine> quarantine = quarantineService.findByTrackingNo(trackingNo);
+        if (quarantine.isEmpty()) {
+            return "trackIndex";
+        }
+        model.addAttribute("quarantine", quarantine.get());
+        return "manageQuarantine";
     }
 }
