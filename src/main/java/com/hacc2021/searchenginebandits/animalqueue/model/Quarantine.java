@@ -36,4 +36,8 @@ public class Quarantine extends AbstractEntity {
         this.trackingNo = trackingNo;
         this.creation = creation;
     }
+
+    public void addState(final State state) {
+        this.states.add(state);
+    }
 }
