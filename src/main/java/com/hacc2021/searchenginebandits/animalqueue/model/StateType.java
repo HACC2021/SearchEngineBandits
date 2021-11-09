@@ -19,7 +19,7 @@ public enum StateType {
                                                                            pet.getName())),
                          null,
                          null,
-                         80,
+                         85,
                          COLLECTED),
     COLLECTION_TIME_CONFIRMED("Collection time confirmed",
                               ((owner, pet, quarantine, state) -> String.format(
@@ -29,7 +29,7 @@ public enum StateType {
                                       state.getPayloadDateTime().format(Constants.TIME_FORMATTER))),
                               null,
                               "Confirmed collection time",
-                              60,
+                              70,
                               READY_FOR_COLLECTION),
     COLLECTION_TIME_REQUESTED("Collection time requested",
                               (owner, pet, quarantine, state) -> String.format(
@@ -40,7 +40,7 @@ public enum StateType {
                                       state.getPayloadDateTime().format(Constants.TIME_FORMATTER)),
                               null,
                               "Requested collection time",
-                              45,
+                              55,
                               COLLECTION_TIME_CONFIRMED),
     COLLECTION_TIME_REQUESTABLE("Collection time may be requested",
                                 (owner, pet, quarantine, state) -> String.format(
