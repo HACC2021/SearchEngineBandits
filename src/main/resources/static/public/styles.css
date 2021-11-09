@@ -1,0 +1,185 @@
+/* Fonts for Project */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Oswald:wght@500&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+/*
+Color Scheme:
+    Black Coffee: 41393A (Most Text; Dark Color)
+    Coyote Brown: 83622D (Accent Color)
+    Old Lace: F7EDDE (Webpage Background Color)
+    Steel Teal: 55868C (Accent Color)
+*/
+
+/* Font/Color Set Up */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+    color: #83622D;
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #F7EDDE;
+    color: #41393A;
+}
+
+.headline {
+    font-size: 65px;
+}
+
+/* Used for Centering */
+.center-container {
+    height: 90%;
+    position: relative;
+    text-align: center;
+}
+
+.center-child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Button Styles */
+.button {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #83622D;
+    border: none;
+    border-radius: 10px;
+    color: #F7EDDE;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 16px 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: #F7EDDE;
+    color: #41393A;
+    border: 2px solid #55868C;
+}
+
+.button1:hover {
+    background-color: #55868C;
+    color: #F7EDDE;
+}
+
+/* Header Styles */
+.header {
+    overflow: hidden;
+    background-color: #41393A;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+
+.header a {
+    float: left;
+    color: #F7EDDE;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+}
+
+.header a.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.header a:hover {
+    transition-duration: 0.4s;
+    background-color: #83622D;
+    color: #F7EDDE;
+}
+
+.header a.active {
+    background-color: #83622D;
+    color: #F7EDDE;
+}
+
+.header-right {
+    float: right;
+}
+
+@media screen and (max-width: 500px) {
+    .header a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .header-right {
+        float: none;
+    }
+}
+
+/* Input Box*/
+input[type=text] {
+    padding: 5px 5px;
+    height: 30px;
+    width: 75%;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #41393A;
+    background-color: white;
+    font-size: 16px;
+}
+
+/* Table */
+table {
+    color: #F7EDDE;
+    width: 100%;
+}
+
+td {
+    text-align: left;
+    padding: 20px;
+}
+
+th {
+    text-align: center;
+    padding: 10px;
+}
+
+tr:nth-child(odd) {
+    background-color: #41393A;
+}
+
+tr:nth-child(even) {
+    background-color: #83622D;
+}
+
+/* Progress Bar */
+#progressbar {
+    background-color: #41393A;
+    border-radius: 13px;
+    /* (height of inner div) / 2 + padding */
+    padding: 3px;
+}
+
+#progressbar > div {
+    background-color: #55868C;
+    width: 100%;
+    /* Adjust with JavaScript */
+    height: 20px;
+    border-radius: 10px;
+}
+
+p.multiline {
+    white-space: pre-wrap;
+    line-height: 0.7;
+}
+
+
+
+

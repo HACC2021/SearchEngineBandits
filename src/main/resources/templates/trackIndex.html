@@ -1,13 +1,36 @@
-<title>Track quarantine</title>
-<h1>Track quarantine</h1>
+<head>
+    <link rel="stylesheet" href="/public/styles.css">
+    <title>Track Pet</title>
+</head>
 
-<div th:switch="${trackingNo}">
-    <p th:case="''"></p>
-    <p th:case="*">Tracking No. invalid</p>
+<body>
+<div class="header">
+    <a href="#default" class="logo">HDOA Pawsome Pickup</a>
+    <div class="header-right">
+        <a class="active" href="/track">Track Pet</a> <!-- Current Active Page -->
+        <a href="#">Information</a>
+        <a href="/login">Login</a>
+    </div>
 </div>
 
-<form method="get">
-    <label for="trackingNo">Tracking No.</label>
-    <input id="trackingNo" name="trackingNo" type="text" th:value="${trackingNo}">
-    <button type="submit">Track</button>
-</form>
+<div class="center-container">
+    <div class="center-child">
+        <h1 class="headline">Track Pet</h1>
+
+        <div th:switch="${trackingNo}">
+            <p th:case="''"></p>
+            <p th:case="*">Error: Tracking No. invalid</p>
+        </div>
+
+        <form method="get">
+            <p><label for="trackingNo">Please enter the <strong>Tracking No.</strong> associated with your pet.</label>
+            </p>
+            <input id="trackingNo" name="trackingNo" type="text" th:value="${trackingNo}">
+            <p>
+                <button class="button button1" type="submit">Track</button>
+            </p>
+        </form>
+    </div>
+</div>
+
+</body>

@@ -1,10 +1,43 @@
-<title th:text="'Track quarantine of ' + ${quarantine.pet.name}"/>
-<h1 th:text="'Track quarantine of ' + ${quarantine.pet.name}"/>
+<head>
+    <link rel="stylesheet" href="public/styles.css">
+    <title th:text="'Quarantine history of ' + ${quarantine.pet.name}"/>
+</head>
 
-<div th:each="state: ${quarantine.states}">
-    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}+ ': ' + ${state.message}"/>
-    <p th:if="${state.payloadText != null}" th:text="${state.payloadText}"
-       style="margin-top: -0.5em;margin-left: 6.6em;border: solid 1px black;padding: 0.5em;display: inline-block;white-space:pre-wrap;"/>
+<body>
+<div class="header">
+    <a href="#default" class="logo">HDOA Pawsome Pickup</a>
+    <div class="header-right">
+        <a class="active" href="/track">Track Pet</a> <!-- Current Active Page -->
+        <a href="#">Information</a>
+        <a href="/login">Login</a>
+    </div>
 </div>
 
-<a href="/track">Back to tracking</a>
+<div class="center-container">
+    <div class="center-child">
+
+        <!-- I would love to include a status bar for pet -->
+        <h1 class="headline" th:text="'Current status of ' + ${quarantine.pet.name}"/>
+        <div id="progressbar">
+            <div></div>
+        </div>
+
+        <h1 th:text="'Quarantine history of ' + ${quarantine.pet.name}"/>
+
+        <table>
+            <tr>
+                <th>Date and Time</th>
+                <th>Message</th>
+            </tr>
+            <tr th:each="state: ${quarantine.states}">
+                <td th:text="${#temporals.format(state.creation, 'MM/dd/yy')} + ' at ' + ${#temporals.format(state.creation, 'HH:mm a')}"/>
+                <td>
+                    <p th:text="${state.message}"/>
+                    <p th:if="${state.payloadText != null}" th:text="${state.payloadText}" class="multiline"/>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+</body>
