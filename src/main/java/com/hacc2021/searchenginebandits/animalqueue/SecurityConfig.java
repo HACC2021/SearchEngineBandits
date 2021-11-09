@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity web) {
-        web.ignoring().antMatchers("/track/**", "/public/**", "/error/**");
+        web.ignoring().antMatchers("/track/**", "/requestCollectionTime/**", "/public/**", "/error/**");
     }
 
 }

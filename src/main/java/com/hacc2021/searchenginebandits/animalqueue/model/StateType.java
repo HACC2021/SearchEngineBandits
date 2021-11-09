@@ -3,44 +3,68 @@ package com.hacc2021.searchenginebandits.animalqueue.model;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 
 @Getter
 public enum StateType {
     COLLECTED("Pet collected",
               (owner, pet, quarantine, state) -> String.format("%s was collected.", pet.getName()),
               null,
-              null),
+              null,
+              100),
+    READY_FOR_COLLECTION("Ready for collection",
+                         ((owner, pet, quarantine, state) -> String.format("%s is ready for collection.",
+                                                                           pet.getName())),
+                         null,
+                         null,
+                         80,
+                         COLLECTED),
+    COLLECTION_TIME_CONFIRMED("Collection time confirmed",
+                              ((owner, pet, quarantine, state) -> String.format(
+                                      "The collection time for %s on %tD at %s was confirmed.",
+                                      pet.getName(),
+                                      state.getPayloadDateTime(),
+                                      state.getPayloadDateTime().format(Constants.TIME_FORMATTER))),
+                              null,
+                              "Confirmed collection time",
+                              60,
+                              READY_FOR_COLLECTION),
     COLLECTION_TIME_REQUESTED("Collection time requested",
                               (owner, pet, quarantine, state) -> String.format(
-                                      "%s requested to collect %s on %tD at %tR.",
+                                      "%s requested to collect %s on %tD at %s.",
                                       owner.getName(),
                                       pet.getName(),
                                       state.getPayloadDateTime(),
-                                      state.getPayloadDateTime()),
+                                      state.getPayloadDateTime().format(Constants.TIME_FORMATTER)),
                               null,
                               "Requested collection time",
-                              COLLECTED),
-    TEMPORARY_SAMPLE_TYPE("Temporary sample type",
-                          (owner, pet, quarantine, state) -> String.format("%s samples with %s on %tD at %tR.",
-                                                                           owner.getName(),
-                                                                           pet.getName(),
-                                                                           state.getPayloadDateTime(),
-                                                                           state.getPayloadDateTime()),
-                          "Payload text sample",
-                          "Payload date time sample",
-                          COLLECTED),
+                              45,
+                              COLLECTION_TIME_CONFIRMED),
+    COLLECTION_TIME_REQUESTABLE("Collection time may be requested",
+                                (owner, pet, quarantine, state) -> String.format(
+                                        "%s can request a collection time for %s now.",
+                                        owner.getName(),
+                                        pet.getName()),
+                                null,
+                                null,
+                                35,
+                                COLLECTION_TIME_REQUESTED),
     HEALTH_CHECK_PASSED("Health check passed",
                         (owner, pet, quarantine, state) -> String.format("%s passed the health check.", pet.getName()),
                         null,
                         null,
-                        COLLECTION_TIME_REQUESTED,
-                        TEMPORARY_SAMPLE_TYPE),
+                        25,
+                        COLLECTION_TIME_REQUESTABLE),
 
     INITIAL("Quarantine created",
             (owner, pet, quarantine, state) -> String.format("Quarantine of %s has been created in the system.",
                                                              pet.getName()),
-            null, null, HEALTH_CHECK_PASSED);
+            null,
+            null,
+            10,
+            HEALTH_CHECK_PASSED);
 
     private final String displayName;
 
@@ -58,8 +82,13 @@ public enum StateType {
 
     private final StateType[] possibleSuccessors;
 
-    StateType(final String displayName, final MessageSupplier messageSupplier, final String payloadTextName,
+    private final int progress;
+
+    StateType(final String displayName,
+              final MessageSupplier messageSupplier,
+              final String payloadTextName,
               final String payloadDateTimeName,
+              final int progress,
               final StateType... possibleSuccessors) {
         this.displayName = displayName;
         this.messageSupplier = messageSupplier;
@@ -67,6 +96,7 @@ public enum StateType {
         this.hasPayloadText = payloadTextName != null && !payloadTextName.isBlank();
         this.payloadDateTimeName = payloadDateTimeName;
         this.hasPayloadDateTime = payloadDateTimeName != null && !payloadDateTimeName.isBlank();
+        this.progress = progress;
         this.possibleSuccessors = possibleSuccessors;
     }
 
@@ -88,5 +118,9 @@ public enum StateType {
         }
 
         String supply(Owner owner, Pet pet, Quarantine quarantine, State state);
+    }
+
+    private static class Constants {
+        protected static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm a", Locale.US);
     }
 }

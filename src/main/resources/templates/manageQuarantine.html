@@ -26,7 +26,12 @@
     }
 </script>
 
-<form method="post" th:if="${quarantine.currentState.type.possibleSuccessors.length > 0}">
+<div th:if="${collectionTimeRequestable}">
+    <p>Waiting for collection time request by owner.</p>
+</div>
+
+<form method="post"
+      th:if="${quarantine.currentState.type.possibleSuccessors.length > 0} and not ${collectionTimeRequestable}">
     <input
             type="hidden"
             th:name="${_csrf.parameterName}"

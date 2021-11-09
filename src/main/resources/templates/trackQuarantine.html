@@ -18,11 +18,24 @@
 
         <!-- I would love to include a status bar for pet -->
         <h1 class="headline" th:text="'Current status of ' + ${quarantine.pet.name}"/>
+        <h2 th:text="${quarantine.currentState.message}"/>
         <div id="progressbar">
-            <div></div>
+            <div class="inner-progressbar"
+                 th:attr="style='width: ' + ${quarantine.currentState.type.progress} +'%'"></div>
         </div>
 
         <h1 th:text="'Quarantine history of ' + ${quarantine.pet.name}"/>
+
+        <div th:if="${collectionTimeRequestable}" class="collectionTimeRequest">
+            <h2>Request collection time</h2>
+            <form th:attr="action='/requestCollectionTime?trackingNo=' + ${quarantine.trackingNo}" method="post">
+
+                <label id="requestedCollectionTimeLabel" for="requestedCollectionTime"></label>
+                <input id="requestedCollectionTime" name="requestedCollectionTime" type="datetime-local"/>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
 
         <table>
             <tr>

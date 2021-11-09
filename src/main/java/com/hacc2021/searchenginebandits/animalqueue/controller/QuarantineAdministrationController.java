@@ -42,6 +42,8 @@ public class QuarantineAdministrationController {
         }
         final Quarantine quarantine = possibleQuarantine.get();
         model.addAttribute("quarantine", quarantine);
+        model.addAttribute("collectionTimeRequestable",
+                           quarantine.getCurrentState().getType() == StateType.COLLECTION_TIME_REQUESTABLE);
         return "manageQuarantine";
     }
 
