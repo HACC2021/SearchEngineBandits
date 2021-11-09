@@ -1,4 +1,4 @@
-package com.hacc2021.searchenginebandits.animalqueue.service;
+package com.hacc2021.searchenginebandits.animalqueue.service.api;
 
 import com.hacc2021.searchenginebandits.animalqueue.model.Quarantine;
 import com.hacc2021.searchenginebandits.animalqueue.model.StateType;
@@ -33,11 +33,11 @@ public interface StateService {
             this.dateTime = dateTime;
         }
 
-        boolean hasText() {
+        public boolean hasText() {
             return text != null;
         }
 
-        boolean hasDateTime() {
+        public boolean hasDateTime() {
             return dateTime != null;
         }
 

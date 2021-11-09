@@ -1,4 +1,4 @@
-package com.hacc2021.searchenginebandits.animalqueue.service;
+package com.hacc2021.searchenginebandits.animalqueue.service.api;
 
 import com.hacc2021.searchenginebandits.animalqueue.model.Owner;
 

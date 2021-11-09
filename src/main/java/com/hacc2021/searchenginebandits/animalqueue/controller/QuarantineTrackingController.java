@@ -4,8 +4,8 @@ import com.hacc2021.searchenginebandits.animalqueue.exception.NotAllowedExceptio
 import com.hacc2021.searchenginebandits.animalqueue.exception.NotFoundException;
 import com.hacc2021.searchenginebandits.animalqueue.model.Quarantine;
 import com.hacc2021.searchenginebandits.animalqueue.model.StateType;
-import com.hacc2021.searchenginebandits.animalqueue.service.QuarantineService;
-import com.hacc2021.searchenginebandits.animalqueue.service.StateService;
+import com.hacc2021.searchenginebandits.animalqueue.service.api.QuarantineService;
+import com.hacc2021.searchenginebandits.animalqueue.service.api.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

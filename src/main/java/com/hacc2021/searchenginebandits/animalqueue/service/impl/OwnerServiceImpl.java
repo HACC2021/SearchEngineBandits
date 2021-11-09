@@ -1,7 +1,8 @@
-package com.hacc2021.searchenginebandits.animalqueue.service;
+package com.hacc2021.searchenginebandits.animalqueue.service.impl;
 
 import com.hacc2021.searchenginebandits.animalqueue.model.Owner;
 import com.hacc2021.searchenginebandits.animalqueue.repository.OwnerRepository;
+import com.hacc2021.searchenginebandits.animalqueue.service.api.OwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

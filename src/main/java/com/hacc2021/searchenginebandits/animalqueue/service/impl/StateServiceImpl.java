@@ -1,9 +1,11 @@
-package com.hacc2021.searchenginebandits.animalqueue.service;
+package com.hacc2021.searchenginebandits.animalqueue.service.impl;
 
 import com.hacc2021.searchenginebandits.animalqueue.model.Quarantine;
 import com.hacc2021.searchenginebandits.animalqueue.model.State;
 import com.hacc2021.searchenginebandits.animalqueue.model.StateType;
 import com.hacc2021.searchenginebandits.animalqueue.repository.StateRepository;
+import com.hacc2021.searchenginebandits.animalqueue.service.api.NotificationService;
+import com.hacc2021.searchenginebandits.animalqueue.service.api.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

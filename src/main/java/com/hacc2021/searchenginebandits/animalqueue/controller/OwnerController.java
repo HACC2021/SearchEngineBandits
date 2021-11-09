@@ -2,7 +2,7 @@ package com.hacc2021.searchenginebandits.animalqueue.controller;
 
 import com.hacc2021.searchenginebandits.animalqueue.exception.NotFoundException;
 import com.hacc2021.searchenginebandits.animalqueue.model.Owner;
-import com.hacc2021.searchenginebandits.animalqueue.service.OwnerService;
+import com.hacc2021.searchenginebandits.animalqueue.service.api.OwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
