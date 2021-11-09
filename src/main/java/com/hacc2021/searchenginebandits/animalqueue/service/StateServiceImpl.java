@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 public class StateServiceImpl implements StateService {
     final StateRepository stateRepository;
 
+    final NotificationService notificationService;
+
 
     @Override
     public void addState(final Quarantine quarantine, final StateType type, final Payload payload) {
@@ -30,5 +32,7 @@ public class StateServiceImpl implements StateService {
         quarantine.addState(state);
         stateRepository.save(state);
         stateRepository.flush();
+
+        notificationService.sendNotification(state.getMessage());
     }
 }
