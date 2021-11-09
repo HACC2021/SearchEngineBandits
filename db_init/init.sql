@@ -19,7 +19,7 @@ CREATE TABLE QUARANTINE
 (
     ID          int          NOT NULL PRIMARY KEY AUTO_INCREMENT,
     PET_ID      int          NOT NULL,
-    TRACKING_NO varchar2(20) NOT NULL,
+    TRACKING_NO varchar2(16) NOT NULL UNIQUE,
     CREATION    datetime     NOT NULL,
     END         datetime,
     CONSTRAINT FK_Pet FOREIGN KEY (PET_ID) REFERENCES PET

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -17,14 +18,19 @@ public class OwnerServiceImpl implements OwnerService {
 
 
     @Override
-    public void createOwner(final String name) {
-        final Owner owner = new Owner(name, "something@somewhere.com", "123");
+    public void createOwner(final String name, final String emailAddress, final String phoneNumber) {
+        final Owner owner = new Owner(name, emailAddress, phoneNumber);
         ownerRepository.save(owner);
         ownerRepository.flush();
     }
 
     @Override
-    public List<Owner> listOwners() {
+    public List<Owner> findAll() {
         return ownerRepository.findAll();
+    }
+
+    @Override
+    public Optional<Owner> findById(final int ownerId) {
+        return ownerRepository.findById(ownerId);
     }
 }

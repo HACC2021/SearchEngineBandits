@@ -1,0 +1,22 @@
+<title>Create pet</title>
+<h1>Create pet</h1>
+
+<p th:text="'Owner: ' + ${owner.name}"/>
+
+<form method="post">
+    <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}"/>
+
+
+    <label id="nameLabel" for="name">Name:</label>
+    <input id="name" name="name" type="text" maxlength="50"/>
+
+    <label id="chipNoLabel" for="chipNo">Chip no.:</label>
+    <input id="chipNo" name="chipNo" type="text" maxlength="100"/>
+
+    <button type="submit">Submit</button>
+</form>
+
+<a th:href="'/owners/' + ${owner.id}">Cancel</a>

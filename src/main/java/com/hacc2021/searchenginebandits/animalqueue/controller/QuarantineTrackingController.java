@@ -30,6 +30,6 @@ public class QuarantineTrackingController {
             return "trackIndex";
         }
         model.addAttribute("quarantine", quarantine.get());
-        return "manageQuarantine";
+        return "trackQuarantine";
     }
 }

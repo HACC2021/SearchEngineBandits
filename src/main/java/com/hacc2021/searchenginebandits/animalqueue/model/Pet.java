@@ -32,4 +32,8 @@ public class Pet extends AbstractEntity {
         this.name = name;
         this.chipNo = chipNo;
     }
+
+    public void addQuarantine(final Quarantine quarantine) {
+        quarantines.add(quarantine);
+    }
 }

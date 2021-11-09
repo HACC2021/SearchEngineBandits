@@ -1,9 +1,10 @@
 package com.hacc2021.searchenginebandits.animalqueue.controller;
 
 import com.hacc2021.searchenginebandits.animalqueue.exception.NotFoundException;
+import com.hacc2021.searchenginebandits.animalqueue.model.Pet;
 import com.hacc2021.searchenginebandits.animalqueue.model.Quarantine;
-import com.hacc2021.searchenginebandits.animalqueue.model.State;
 import com.hacc2021.searchenginebandits.animalqueue.model.StateType;
+import com.hacc2021.searchenginebandits.animalqueue.service.PetService;
 import com.hacc2021.searchenginebandits.animalqueue.service.QuarantineService;
 import com.hacc2021.searchenginebandits.animalqueue.service.StateService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,11 +28,13 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Slf4j
 public class QuarantineAdministrationController {
+    final PetService petService;
+
     final QuarantineService quarantineService;
 
     final StateService stateService;
 
-    @GetMapping("/quarantine/{quarantineId}")
+    @GetMapping("/quarantines/{quarantineId}")
     public String manageQuarantine(@PathVariable("quarantineId") final int quarantineId, final Model model) {
         final Optional<Quarantine> possibleQuarantine = quarantineService.findById(quarantineId);
         if (possibleQuarantine.isEmpty()) {
@@ -39,13 +42,10 @@ public class QuarantineAdministrationController {
         }
         final Quarantine quarantine = possibleQuarantine.get();
         model.addAttribute("quarantine", quarantine);
-        final List<State> states = quarantine.getStates();
-        final State currentState = states.get(states.size() - 1);
-        model.addAttribute("currentState", currentState);
         return "manageQuarantine";
     }
 
-    @PostMapping("/quarantine/{quarantineId}")
+    @PostMapping("/quarantines/{quarantineId}")
     public String changeQuarantineState(@PathVariable("quarantineId") final int quarantineId,
                                         @RequestParam("succeedingState") final StateType succeedingState,
                                         @RequestParam(value = "payloadText", required = false) final String payloadText,
@@ -58,8 +58,27 @@ public class QuarantineAdministrationController {
             throw new NotFoundException("Quarantine not found.");
         }
         final Quarantine quarantine = possibleQuarantine.get();
-        stateService.addState(quarantine, succeedingState, new StateService.Payload(payloadText, payloadDateTime));
+        stateService.addState(quarantine,
+                              succeedingState,
+                              new StateService.Payload(succeedingState.hasPayloadText() ? payloadText : null,
+                                                       succeedingState.hasPayloadDateTime() ? payloadDateTime : null));
+
+        if (succeedingState == StateType.COLLECTED) {
+            quarantineService.endQuarantine(quarantine);
+        }
 
         return manageQuarantine(quarantineId, model);
     }
+
+    @GetMapping("/pets/{petId}/newQuarantine")
+    public ModelAndView createQuarantine(@PathVariable("petId") final int petId, final Model model) {
+        final Optional<Pet> possiblePet = petService.findById(petId);
+        if (possiblePet.isEmpty()) {
+            throw new NotFoundException("Pet not found.");
+        }
+        final Pet pet = possiblePet.get();
+        quarantineService.createQuarantine(pet);
+        return new ModelAndView("redirect:/pets/" + petId, model.asMap());
+    }
+
 }

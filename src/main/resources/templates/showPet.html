@@ -1,0 +1,33 @@
+<title th:text="'Pet: ' + ${pet.name}"/>
+<h1 th:text="'Pet: ' + ${pet.name}"/>
+<p th:text="'Chip no.: ' + ${pet.chipNo}"/>
+<p th:text="'Owner: ' + ${pet.owner.name}"/>
+
+<div>
+    <a th:href="'/owners/' + ${pet.owner.id}" th:text="'Back to owner: ' + ${pet.owner.name}"/>
+</div>
+
+<h2>Quarantines</h2>
+<table>
+    <thead>
+    <tr>
+        <td>Start</td>
+        <td>End</td>
+        <td>Tracking no.</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="quarantine: ${pet.quarantines}">
+        <td th:text="${#temporals.format(quarantine.creation, 'MM/dd/yy HH:mm')}"/>
+        <td th:text="${quarantine.end} ? ${#temporals.format(quarantine.end, 'MM/dd/yy HH:mm')}"/>
+        <td><a th:href="'/track?trackingNo=' + ${quarantine.trackingNo}" th:text="${quarantine.trackingNo}"
+               target="_blank"/></td>
+        <td><a th:href="'/quarantines/' + ${quarantine.id}">Show</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <a th:href="'/pets/' + ${pet.id} + '/newQuarantine'">New quarantine</a>
+</div>

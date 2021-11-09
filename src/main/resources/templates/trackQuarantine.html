@@ -1,7 +1,10 @@
+<title th:text="'Track quarantine of ' + ${quarantine.pet.name}"/>
 <h1 th:text="'Track quarantine of ' + ${quarantine.pet.name}"/>
 
 <div th:each="state: ${quarantine.states}">
     <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}+ ': ' + ${state.message}"/>
+    <p th:if="${state.payloadText != null}" th:text="${state.payloadText}"
+       style="margin-top: -0.5em;margin-left: 6.6em;border: solid 1px black;padding: 0.5em;display: inline-block;white-space:pre-wrap;"/>
 </div>
 
 <a href="/track">Back to tracking</a>

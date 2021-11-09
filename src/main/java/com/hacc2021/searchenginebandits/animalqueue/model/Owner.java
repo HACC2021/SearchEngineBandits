@@ -33,4 +33,8 @@ public class Owner extends AbstractEntity {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
     }
+
+    public void addPet(final Pet pet) {
+        pets.add(pet);
+    }
 }

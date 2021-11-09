@@ -1,0 +1,23 @@
+<title>Create owner</title>
+<h1>Create owner</h1>
+
+<form method="post">
+    <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}"/>
+
+
+    <label id="nameLabel" for="name">Name</label>
+    <input id="name" name="name" type="text" maxlength="50"/>
+
+    <label id="emailAddressLabel" for="emailAddress">Email address</label>
+    <input id="emailAddress" name="emailAddress" type="email" maxlength="100"/>
+
+    <label id="phoneNumberLabel" for="phoneNumber">Phone number</label>
+    <input id="phoneNumber" name="phoneNumber" type="tel" maxlength="50"/>
+
+    <button type="submit">Submit</button>
+</form>
+
+<a href="/owners">Cancel</a>

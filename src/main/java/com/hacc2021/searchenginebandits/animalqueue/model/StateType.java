@@ -1,6 +1,7 @@
 package com.hacc2021.searchenginebandits.animalqueue.model;
 
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 import java.util.Arrays;
 
@@ -39,9 +40,7 @@ public enum StateType {
     INITIAL("Quarantine created",
             (owner, pet, quarantine, state) -> String.format("Quarantine of %s has been created in the system.",
                                                              pet.getName()),
-            null,
-            null,
-            HEALTH_CHECK_PASSED);
+            null, null, HEALTH_CHECK_PASSED);
 
     private final String displayName;
 
@@ -51,15 +50,15 @@ public enum StateType {
 
     private final String payloadDateTimeName;
 
+    @Accessors(fluent = true)
     private final boolean hasPayloadText;
 
+    @Accessors(fluent = true)
     private final boolean hasPayloadDateTime;
 
     private final StateType[] possibleSuccessors;
 
-    StateType(final String displayName,
-              final MessageSupplier messageSupplier,
-              final String payloadTextName,
+    StateType(final String displayName, final MessageSupplier messageSupplier, final String payloadTextName,
               final String payloadDateTimeName,
               final StateType... possibleSuccessors) {
         this.displayName = displayName;

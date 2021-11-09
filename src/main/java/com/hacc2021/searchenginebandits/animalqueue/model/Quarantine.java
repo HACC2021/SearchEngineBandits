@@ -19,13 +19,13 @@ public class Quarantine extends AbstractEntity {
     @JoinColumn(name = "PET_ID")
     private Pet pet;
 
-    @Column(name = "TRACKING_NO", length = 20, nullable = false)
+    @Column(name = "TRACKING_NO", length = 16, nullable = false, unique = true)
     private String trackingNo;
 
     @Column(name = "CREATION", nullable = false)
     private LocalDateTime creation;
 
-    @Column(name = "END", nullable = false)
+    @Column(name = "END")
     private LocalDateTime end;
 
     @OneToMany(mappedBy = "quarantine")
@@ -39,5 +39,9 @@ public class Quarantine extends AbstractEntity {
 
     public void addState(final State state) {
         this.states.add(state);
+    }
+
+    public State getCurrentState() {
+        return states.get(states.size() - 1);
     }
 }

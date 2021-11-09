@@ -1,0 +1,29 @@
+<title th:text="'Owner: ' + ${owner.name}"/>
+<h1 th:text="'Owner: ' + ${owner.name}"/>
+
+<p th:text="'Email address: ' + ${owner.emailAddress}"/>
+<p th:text="'Phone number: ' + ${owner.phoneNumber}"/>
+<div>
+    <a href="/owners">Back to owner list</a>
+</div>
+
+<h2>Pets</h2>
+<table>
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Chip no.</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pet: ${owner.pets}">
+        <td th:text="${pet.name}"/>
+        <td th:text="${pet.chipNo}"/>
+        <td><a th:href="'/pets/' + ${pet.id}">Show</a></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a th:href="'/owners/' + ${owner.id} + '/newPet'">New pet</a>
+</div>

@@ -1,3 +1,4 @@
-<h1>Whoops, that's an error.</h1>
+<title th:text="${statusCode} + ': Whoops, that\'s an error.'"/>
+<h1 th:text="${statusCode} + ': Whoops, that\'s an error.'"/>
 
 <img th:attr="src='https://http.cat/'+${statusCode},alt='Error '+${statusCode}">
