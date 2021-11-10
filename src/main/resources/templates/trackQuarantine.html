@@ -1,20 +1,25 @@
 <head>
     <link rel="stylesheet" href="public/styles.css">
-    <title th:text="'Quarantine history of ' + ${quarantine.pet.name}"/>
+    <title th:text="'Quarantine History of ' + ${quarantine.pet.name}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-<div class="header">
-    <a href="/track" class="logo">HDOA Pawsome Pickup</a>
-    <div class="header-right">
-        <a class="active" href="/track">Track Pet</a> <!-- Current Active Page -->
-        <a href="#">Information</a>
-        <a href="/login">Login</a>
-    </div>
-</div>
+    <div class="header">
+        <a href="/track" class="logo">
+            <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;">
+            HDOA Pawsome Pickup
+        </a>
 
-<div class="center-container">
-    <div class="center-child">
+        <div class="header-right">
+            <a class="active" href="/track">Track Pet</a> <!-- Current Active Page -->
+            <a href="#">Information</a>
+            <a href="/login">Login</a>
+        </div>
+    </div>
+
+    <div class="center-container">
+        <div class="center-child">
 
         <!-- I would love to include a status bar for pet -->
         <h1 class="headline" th:text="'Current status of ' + ${quarantine.pet.name}"/>
@@ -24,7 +29,7 @@
                  th:attr="style='width: ' + ${quarantine.currentState.type.progress} +'%'"></div>
         </div>
 
-        <h1 th:text="'Quarantine history of ' + ${quarantine.pet.name}"/>
+            <h1 th:text="'Quarantine History of ' + ${quarantine.pet.name}"/>
 
         <div th:if="${collectionTimeRequestable}" class="collectionTimeRequest">
             <h2>Request collection time</h2>
@@ -51,6 +56,6 @@
             </tr>
         </table>
 
+        </div>
     </div>
-</div>
 </body>
