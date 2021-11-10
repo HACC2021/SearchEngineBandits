@@ -31,16 +31,14 @@ body {
 
 /* Used for Centering */
 .center-container {
-    height: 90%;
-    position: relative;
+    width: 100%;
     text-align: center;
 }
 
 .center-child {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: inline-block;
+    margin: 0 auto;
+    padding: 3px;
 }
 
 /* Button Styles */

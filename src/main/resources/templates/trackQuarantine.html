@@ -7,7 +7,7 @@
 <body>
     <div class="header">
         <a href="/track" class="logo">
-            <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;">
+            <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
             HDOA Pawsome Pickup
         </a>
 
@@ -22,7 +22,7 @@
         <div class="center-child">
 
         <!-- I would love to include a status bar for pet -->
-        <h1 class="headline" th:text="'Current status of ' + ${quarantine.pet.name}"/>
+        <h1 class="headline" th:text="'Current Status of ' + ${quarantine.pet.name}"/>
         <h2 th:text="${quarantine.currentState.message}"/>
         <div id="progressbar">
             <div class="inner-progressbar"
