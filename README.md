@@ -8,5 +8,5 @@
 4. Execute db_init/init.sql
 5. Start server again
 6. Open `localhost:8080/track` or `localhost:8080/owners` at startpoints
-7. If login needed: Username `ADmin` and password `pass` (will be changed in the future)
+7. If login needed: Username `Admin` and password `pass` (will be changed in the future)
 
