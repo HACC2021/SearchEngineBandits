@@ -25,7 +25,7 @@ public class Quarantine extends AbstractEntity {
     @Column(name = "CREATION", nullable = false)
     private LocalDateTime creation;
 
-    @Column(name = "END")
+    @Column(name = "\"END\"")
     private LocalDateTime end;
 
     @OneToMany(mappedBy = "quarantine")
