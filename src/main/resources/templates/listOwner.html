@@ -1,24 +1,40 @@
-<title>Owners</title>
+<head>
+    <link rel="stylesheet" href="/public/styles.css">
+    <title>Owners</title>
+</head>
 
-<h1>Owners</h1>
+<body>
+    <div class="header">
+        <a href="/track" class="logo">
+            <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+            HDOA Pawsome Pickup (Employee Mode)
+        </a>
+    </div>
 
-<table>
-    <thead>
-    <tr>
-        <td>Name</td>
-        <td>Email address</td>
-        <td>Phone number</td>
-        <td></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="owner: ${owners}">
-        <td th:text="${owner.name}"/>
-        <td th:text="${owner.emailAddress}"/>
-        <td th:text="${owner.phoneNumber}"/>
-        <td><a th:href="'/owners/' + ${owner.id}">Show</a></td>
-    </tr>
-    </tbody>
-</table>
+    <div class="center-container">
+        <div class="center-child">
+            <h1 class="headline">Owners</h1>
 
-<a href="/owners/new">New owner</a>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email address</th>
+                    <th>Phone number</th>
+                    <th>List Pets</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="owner: ${owners}">
+                    <td th:text="${owner.name}"/>
+                    <td th:text="${owner.emailAddress}"/>
+                    <td th:text="${owner.phoneNumber}"/>
+                    <td><a class="button button2" th:href="'/owners/' + ${owner.id}">Show</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a class="button button1" href="/owners/new">Add New Owner</a>
+        </div>
+    </div>
+</body>

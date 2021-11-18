@@ -69,6 +69,17 @@ body {
     color: #F7EDDE;
 }
 
+.button2 {
+    background-color: #55868C;
+    color: #F7EDDE;
+    border: 2px solid #55868C;
+}
+
+.button2:hover {
+    background-color: #55868C;
+    color: #F7EDDE;
+}
+
 /* Header Styles */
 .header {
     overflow: hidden;
@@ -121,7 +132,7 @@ body {
 }
 
 /* Input Box*/
-input[type=text] {
+input{
     padding: 5px 5px;
     height: 30px;
     width: 75%;
@@ -137,6 +148,10 @@ input[type=text] {
 table {
     color: #F7EDDE;
     width: 100%;
+}
+
+thead tr th{
+    background-color: #55868C;
 }
 
 td {
@@ -177,4 +192,3 @@ p.multiline {
     white-space: pre-wrap;
     line-height: 0.7;
 }
-
