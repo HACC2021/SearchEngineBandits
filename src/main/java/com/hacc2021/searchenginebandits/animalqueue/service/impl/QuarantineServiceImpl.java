@@ -49,7 +49,7 @@ public class QuarantineServiceImpl implements QuarantineService {
 
     @Override
     public void endQuarantine(final Quarantine quarantine) {
-        quarantine.setEnd(LocalDateTime.now());
+        quarantine.setEnding(LocalDateTime.now());
         quarantineRepository.save(quarantine);
         quarantineRepository.flush();
     }

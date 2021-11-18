@@ -21,7 +21,7 @@ CREATE TABLE QUARANTINE
     PET_ID      int         NOT NULL,
     TRACKING_NO varchar(16) NOT NULL UNIQUE,
     CREATION    timestamp   NOT NULL,
-    "end"       timestamp,
+    ENDING      timestamp,
     CONSTRAINT FK_Pet FOREIGN KEY (PET_ID) REFERENCES PET
 );
 
