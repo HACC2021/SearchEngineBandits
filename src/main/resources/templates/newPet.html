@@ -1,22 +1,44 @@
-<title>Create pet</title>
-<h1>Create pet</h1>
+<head>
+<link rel="stylesheet" href="/public/styles.css">
+<title>Add Pet</title>
+</head>
 
-<p th:text="'Owner: ' + ${owner.name}"/>
+<body>
+<div class="header">
+    <a href="/track" class="logo">
+        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+        HDOA Pawsome Pickup (Employee Mode)
+    </a>
+</div>
 
-<form method="post">
-    <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}"/>
+<div class="center-container">
+    <div class="center-child">
 
+        <h1 class="headline">Add Pet</h1>
+        <p th:text="'Owner: ' + ${owner.name}"/>
 
-    <label id="nameLabel" for="name">Name:</label>
-    <input id="name" name="name" type="text" maxlength="50"/>
+        <form method="post">
+            <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"/>
 
-    <label id="chipNoLabel" for="chipNo">Chip no.:</label>
-    <input id="chipNo" name="chipNo" type="text" maxlength="100"/>
+            <p>
+                <label id="nameLabel" for="name">Name:</label>
+                <br>
+                <input id="name" name="name" type="text" maxlength="50"/>
+            </p>
+            <p>
+                <label id="chipNoLabel" for="chipNo">Chip Number:</label>
+                <br>
+                <input id="chipNo" name="chipNo" type="text" maxlength="100"/>
+            </p>
+            <p>
+                <button class="button button1" type="submit">Submit</button>
+            </p>
+        </form>
+        <a class="button button1" th:href="'/owners/' + ${owner.id}">Cancel</a>
 
-    <button type="submit">Submit</button>
-</form>
-
-<a th:href="'/owners/' + ${owner.id}">Cancel</a>
+    </div>
+</div>
+</body>

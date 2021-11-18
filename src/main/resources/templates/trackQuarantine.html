@@ -21,40 +21,45 @@
     <div class="center-container">
         <div class="center-child">
 
-        <!-- I would love to include a status bar for pet -->
-        <h1 class="headline" th:text="'Current Status of ' + ${quarantine.pet.name}"/>
-        <h2 th:text="${quarantine.currentState.message}"/>
-        <div id="progressbar">
-            <div class="inner-progressbar"
-                 th:attr="style='width: ' + ${quarantine.currentState.type.progress} +'%'"></div>
-        </div>
+            <!-- I would love to include a status bar for pet -->
+            <h1 class="headline" th:text="'Current Status of ' + ${quarantine.pet.name}"/>
+            <h2 th:text="${quarantine.currentState.message}"/>
+            <div id="progressbar">
+                <div class="inner-progressbar"
+                     th:attr="style='width: ' + ${quarantine.currentState.type.progress} +'%'">
+                </div>
+            </div>
 
             <h1 th:text="'Quarantine History of ' + ${quarantine.pet.name}"/>
 
-        <div th:if="${collectionTimeRequestable}" class="collectionTimeRequest">
-            <h2>Request collection time</h2>
-            <form th:attr="action='/requestCollectionTime?trackingNo=' + ${quarantine.trackingNo}" method="post">
+            <div th:if="${collectionTimeRequestable}" class="collectionTimeRequest">
+                <h2>Request collection time</h2>
+                <form th:attr="action='/requestCollectionTime?trackingNo=' + ${quarantine.trackingNo}" method="post">
 
-                <label id="requestedCollectionTimeLabel" for="requestedCollectionTime"></label>
-                <input id="requestedCollectionTime" name="requestedCollectionTime" type="datetime-local"/>
+                    <label id="requestedCollectionTimeLabel" for="requestedCollectionTime"></label>
+                    <input id="requestedCollectionTime" name="requestedCollectionTime" type="datetime-local"/>
 
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
 
-        <table>
-            <tr>
-                <th>Date and Time</th>
-                <th>Message</th>
-            </tr>
-            <tr th:each="state: ${quarantine.states}">
-                <td th:text="${#temporals.format(state.creation, 'MM/dd/yy')} + ' at ' + ${#temporals.format(state.creation, 'HH:mm a')}"/>
-                <td>
-                    <p th:text="${state.message}"/>
-                    <p th:if="${state.payloadText != null}" th:text="${state.payloadText}" class="multiline"/>
-                </td>
-            </tr>
-        </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date and Time</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="state: ${quarantine.states}">
+                        <td th:text="${#temporals.format(state.creation, 'MM/dd/yy')} + ' at ' + ${#temporals.format(state.creation, 'HH:mm a')}"/>
+                        <td>
+                            <p th:text="${state.message}"/>
+                            <p th:if="${state.payloadText != null}" th:text="${state.payloadText}" class="multiline"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
         </div>
     </div>
