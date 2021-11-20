@@ -17,15 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
 @EnableAutoConfiguration
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class QuarantineTrackingController {
-    final QuarantineService quarantineService;
 
-    final StateService stateService;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm");
+
+    private final QuarantineService quarantineService;
+
+    private final StateService stateService;
 
     @GetMapping("/track")
     public String trackQuarantine(@RequestParam(value = "trackingNo", defaultValue = "") final String trackingNo,
@@ -42,6 +46,9 @@ public class QuarantineTrackingController {
         model.addAttribute("quarantine", quarantine);
         model.addAttribute("collectionTimeRequestable",
                            quarantine.getCurrentState().getType() == StateType.COLLECTION_TIME_REQUESTABLE);
+        final LocalDateTime min = LocalDateTime.now().plusHours(3).withSecond(0).withMinute(0);
+        model.addAttribute("min", min.format(FORMATTER));
+        model.addAttribute("max", min.plusDays(5).format(FORMATTER));
         return "trackQuarantine";
     }
 
