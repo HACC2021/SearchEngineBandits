@@ -37,7 +37,7 @@
                 <form th:attr="action='/requestCollectionTime?trackingNo=' + ${quarantine.trackingNo}" method="post">
 
                     <label id="requestedCollectionTimeLabel" for="requestedCollectionTime"></label>
-                    <input id="requestedCollectionTime" name="requestedCollectionTime" type="datetime-local"/>
+                    <input id="requestedCollectionTime" name="requestedCollectionTime" type="datetime-local" required/>
 
                     <button type="submit">Submit</button>
                 </form>
@@ -55,6 +55,8 @@
                         <td th:text="${#temporals.format(state.creation, 'MM/dd/yy')} + ' at ' + ${#temporals.format(state.creation, 'HH:mm a')}"/>
                         <td>
                             <p th:text="${state.message}"/>
+                            <p th:if="${state.payloadText != null}" th:text="${state.type.payloadTextName} + ':'"
+                               style="font-style: italic"/>
                             <p th:if="${state.payloadText != null}" th:text="${state.payloadText}" class="multiline"/>
                         </td>
                     </tr>

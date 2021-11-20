@@ -190,5 +190,5 @@ tr:nth-child(even) {
 
 p.multiline {
     white-space: pre-wrap;
-    line-height: 0.7;
+    line-height: 1;
 }

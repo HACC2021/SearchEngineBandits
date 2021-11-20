@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -53,8 +52,7 @@ public class QuarantineAdministrationController {
                                         @RequestParam(value = "payloadText", required = false) final String payloadText,
                                         @RequestParam(value = "payloadDateTime", required = false)
                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                        final LocalDateTime payloadDateTime,
-                                        final Model model) {
+                                        final LocalDateTime payloadDateTime) {
         final Optional<Quarantine> possibleQuarantine = quarantineService.findById(quarantineId);
         if (possibleQuarantine.isEmpty()) {
             throw new NotFoundException("Quarantine not found.");
@@ -69,18 +67,18 @@ public class QuarantineAdministrationController {
             quarantineService.endQuarantine(quarantine);
         }
 
-        return manageQuarantine(quarantineId, model);
+        return "redirect:/quarantines/" + quarantineId;
     }
 
     @GetMapping("/pets/{petId}/newQuarantine")
-    public ModelAndView createQuarantine(@PathVariable("petId") final int petId, final Model model) {
+    public String createQuarantine(@PathVariable("petId") final int petId) {
         final Optional<Pet> possiblePet = petService.findById(petId);
         if (possiblePet.isEmpty()) {
             throw new NotFoundException("Pet not found.");
         }
         final Pet pet = possiblePet.get();
         quarantineService.createQuarantine(pet);
-        return new ModelAndView("redirect:/pets/" + petId, model.asMap());
+        return "redirect:/pets/" + petId;
     }
 
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
@@ -44,13 +43,12 @@ public class PetController {
     }
 
     @PostMapping("/owners/{ownerId}/newPet")
-    public ModelAndView createPet(@PathVariable("ownerId") final int ownerId,
-                                  @RequestParam("name") final String name,
-                                  @RequestParam(value = "chipNo") final String chipNo,
-                                  final Model model) {
+    public String createPet(@PathVariable("ownerId") final int ownerId,
+                            @RequestParam("name") final String name,
+                            @RequestParam(value = "chipNo") final String chipNo) {
         final Owner owner = getOwner(ownerId);
         petService.createPet(owner, name, chipNo);
-        return new ModelAndView("redirect:/owners/" + ownerId, model.asMap());
+        return "redirect:/owners/" + ownerId;
     }
 
     private Owner getOwner(final int ownerId) {

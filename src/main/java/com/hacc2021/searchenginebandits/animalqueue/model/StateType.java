@@ -58,13 +58,31 @@ public enum StateType {
                         25,
                         COLLECTION_TIME_REQUESTABLE),
 
+    HEALTH_CHECK_FAILED_OWNER_CONTACTED("Owner contacted after failed health check",
+                                        ((owner, pet, quarantine, state) -> String.format(
+                                                "%s was contacted after %s failed the health check.",
+                                                owner.getName(),
+                                                pet.getName())),
+                                        "Documentation of communication",
+                                        null,
+                                        15,
+                                        HEALTH_CHECK_PASSED),
+
+    HEALTH_CHECK_FAILED("Health check failed",
+                        (owner, pet, quarantine, state) -> String.format("%s failed the health check.", pet.getName()),
+                        "Details",
+                        null,
+                        10,
+                        HEALTH_CHECK_FAILED_OWNER_CONTACTED),
+
     INITIAL("Quarantine created",
             (owner, pet, quarantine, state) -> String.format("Quarantine of %s has been created in the system.",
                                                              pet.getName()),
             null,
             null,
-            10,
-            HEALTH_CHECK_PASSED);
+            5,
+            HEALTH_CHECK_PASSED,
+            HEALTH_CHECK_FAILED);
 
     private final String displayName;
 
