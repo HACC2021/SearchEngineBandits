@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
@@ -44,11 +43,10 @@ public class OwnerController {
     }
 
     @PostMapping("/owners/new")
-    public ModelAndView createOwner(@RequestParam("name") final String name,
-                                    @RequestParam(value = "emailAddress", required = false) final String emailAddress,
-                                    @RequestParam(value = "phoneNumber", required = false) final String phoneNumber,
-                                    final Model model) {
+    public String createOwner(@RequestParam("name") final String name,
+                              @RequestParam(value = "emailAddress", required = false) final String emailAddress,
+                              @RequestParam(value = "phoneNumber", required = false) final String phoneNumber) {
         ownerService.createOwner(name, emailAddress, phoneNumber);
-        return new ModelAndView("redirect:/owners", model.asMap());
+        return "redirect:/owners";
     }
 }

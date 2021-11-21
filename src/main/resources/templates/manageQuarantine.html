@@ -9,8 +9,10 @@
 
 <script th:inline="javascript">
     function showPayload(selectedOption) {
-        changeFieldVisibility(selectedOption.dataset.hpt === "true", selectedOption.dataset.ptn, "payloadText", "payloadTextLabel");
-        changeFieldVisibility(selectedOption.dataset.hpdt === "true", selectedOption.dataset.pdtn, "payloadDateTime", "payloadDateTimeLabel");
+        if (selectedOption.checked) {
+            changeFieldVisibility(selectedOption.dataset.hpt === "true", selectedOption.dataset.ptn, "payloadText", "payloadTextLabel");
+            changeFieldVisibility(selectedOption.dataset.hpdt === "true", selectedOption.dataset.pdtn, "payloadDateTime", "payloadDateTimeLabel");
+        }
     }
 
     function changeFieldVisibility(hasField, fieldName, fieldId, fieldLabelId) {
@@ -18,9 +20,11 @@
         let fieldLabel = document.getElementById(fieldLabelId);
         if (hasField) {
             field.style.display = "block";
+            field.required = true;
             fieldLabel.innerText = fieldName;
         } else {
             field.style.display = "none";
+            field.required = false;
             fieldLabel.innerText = "";
         }
     }
@@ -30,6 +34,7 @@
     <p>Waiting for collection time request by owner.</p>
 </div>
 
+<h3>Select succeeding state</h3>
 <form method="post"
       th:if="${quarantine.currentState.type.possibleSuccessors.length > 0} and not ${collectionTimeRequestable}">
     <input
@@ -37,17 +42,17 @@
             th:name="${_csrf.parameterName}"
             th:value="${_csrf.token}"/>
 
-    <label for="succeedingState">Succeeding state</label>
-    <select id="succeedingState"
-            name="succeedingState"
-            onchange="showPayload(this.options[this.selectedIndex])"
-            style="display: block">
-        <option disabled selected>Select succeeding state</option>
-        <option th:each="possibleSuccessor: ${quarantine.currentState.type.possibleSuccessors}"
-                th:value="${possibleSuccessor.name}"
+    <p th:each="possibleSuccessor: ${quarantine.currentState.type.possibleSuccessors}">
+        <input type="radio" name="succeedingState"
+               th:id="'RADIO-' + ${possibleSuccessor.name}"
+               th:value="${possibleSuccessor.name}"
+               th:attr="data-hpt=${possibleSuccessor.hasPayloadText},data-ptn=${possibleSuccessor.payloadTextName},data-hpdt=${possibleSuccessor.hasPayloadDateTime},data-pdtn=${possibleSuccessor.payloadDateTimeName}"
+               onchange="showPayload(this)"
+               required/>
+        <label
                 th:text="${possibleSuccessor.displayName}"
-                th:attr="data-hpt=${possibleSuccessor.hasPayloadText},data-ptn=${possibleSuccessor.payloadTextName},data-hpdt=${possibleSuccessor.hasPayloadDateTime},data-pdtn=${possibleSuccessor.payloadDateTimeName}"/>
-    </select>
+                th:for="'RADIO-' + ${possibleSuccessor.name}"/>
+    </p>
 
     <label id="payloadTextLabel" for="payloadText"></label>
     <textarea id="payloadText" name="payloadText" style="display: none" maxlength="255"></textarea>
