@@ -10,3 +10,5 @@ spring:
     user:
       name: user
       password: p
+  sendgrid:
+    api-key: ## PLACEHOLDER ##

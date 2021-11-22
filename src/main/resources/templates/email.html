@@ -1,0 +1,18 @@
+<p th:text="'Aloha ' + ${owner.name} + ','"/>
+
+<p th:text="'We have new information about the quarantine of your pet ' + ${pet.name} + '!'"/>
+
+<div style="border: 1px solid black; margin: 0; padding: 10px;">
+    <p th:text="${state.message}"/>
+</div>
+
+<div th:if="${state.payloadText != null}" style="border: 1px solid black; margin: 0; padding: 10px;">
+    <p th:text="${state.type.payloadTextName} + ':'"/>
+    <p th:text="${state.payloadText}" class="multiline"/>
+</div>
+
+<p>To track your pet quarantine, please refer to <a
+        th:text="${baseUrl} + '/track?trackingNo=' + ${quarantine.trackingNo}"
+        th:href="${baseUrl} + '/track?trackingNo=' + ${quarantine.trackingNo}"/></p>
+
+<p>Mahalo for your patience,<br>HDOA Pawsome Pickup</p>
