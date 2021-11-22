@@ -1,12 +1,9 @@
-<title th:text="'Manage quarantine of ' + ${quarantine.pet.name}"/>
-<h1 th:text="'Manage quarantine of ' + ${quarantine.pet.name}"/>
+<head>
+    <link rel="stylesheet" href="/public/styles.css">
+    <title th:text="'Manage Quarantine of ' + ${quarantine.pet.name}"/>
+</head>
 
-<div th:each="state: ${quarantine.states}">
-    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}+ ': ' + ${state.message}"/>
-    <p th:if="${state.payloadText != null}" th:text="${state.payloadText}"
-       style="margin-top: -0.5em;margin-left: 6.6em;border: solid 1px black;padding: 0.5em;display: inline-block;white-space:pre-wrap;"/>
-</div>
-
+<!-- Script -->
 <script th:inline="javascript">
     function showPayload(selectedOption) {
         if (selectedOption.checked) {
@@ -30,37 +27,94 @@
     }
 </script>
 
-<div th:if="${collectionTimeRequestable}">
-    <p>Waiting for collection time request by owner.</p>
+<body>
+<div class="header">
+    <a href="/track" class="logo">
+        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg"
+             style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+        HDOA Pawsome Pickup (Employee Mode)
+    </a>
 </div>
 
-<h3>Select succeeding state</h3>
-<form method="post"
-      th:if="${quarantine.currentState.type.possibleSuccessors.length > 0} and not ${collectionTimeRequestable}">
-    <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}"/>
+<div class="center-container">
+    <div class="center-child">
+        <h1 class="headline" th:text="'Manage Quarantine of ' + ${quarantine.pet.name}"/>
 
-    <p th:each="possibleSuccessor: ${quarantine.currentState.type.possibleSuccessors}">
-        <input type="radio" name="succeedingState"
-               th:id="'RADIO-' + ${possibleSuccessor.name}"
-               th:value="${possibleSuccessor.name}"
-               th:attr="data-hpt=${possibleSuccessor.hasPayloadText},data-ptn=${possibleSuccessor.payloadTextName},data-hpdt=${possibleSuccessor.hasPayloadDateTime},data-pdtn=${possibleSuccessor.payloadDateTimeName}"
-               onchange="showPayload(this)"
-               required/>
-        <label
-                th:text="${possibleSuccessor.displayName}"
-                th:for="'RADIO-' + ${possibleSuccessor.name}"/>
-    </p>
+        <table>
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="state: ${quarantine.states}">
+                <td>
+                    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}"/>
+                </td>
+                <td>
+                    <p th:text="${state.message}"/>
+                    <p th:if="${state.payloadText != null}"
+                       th:text="${state.type.payloadTextName} + ':&#10;' + ${state.payloadText}"
+                       style="margin-top: -0.5em;margin-left: 0.5em;border: solid 1px white;padding: 0.5em;display: inline-block;white-space:pre-wrap;word-break: break-word"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-    <label id="payloadTextLabel" for="payloadText"></label>
-    <textarea id="payloadText" name="payloadText" style="display: none" maxlength="255"></textarea>
+        <div th:if="${collectionTimeRequestable}">
+            <p>Waiting for collection time request by owner.</p>
+        </div>
+    </div>
+</div>
 
-    <label id="payloadDateTimeLabel" for="payloadDateTime"></label>
-    <input id="payloadDateTime" name="payloadDateTime" type="datetime-local" style="display: none"/>
+<div class="center-container"
+     th:if="${quarantine.currentState.type.possibleSuccessors.length > 0} and not ${collectionTimeRequestable}">
+    <div class="center-child">
+        <h1>Select Succeeding State</h1>
 
-    <button type="submit">Submit</button>
-</form>
+        <form method="post">
+            <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"/>
 
-<a th:href="'/pets/'+${quarantine.pet.id}" th:text="'Back to pet: '+${quarantine.pet.name}"/>
+            <div th:each="possibleSuccessor: ${quarantine.currentState.type.possibleSuccessors}">
+                <input type="radio" name="succeedingState"
+                       th:id="'RADIO-' + ${possibleSuccessor.name}"
+                       th:value="${possibleSuccessor.name}"
+                       th:attr="data-hpt=${possibleSuccessor.hasPayloadText},data-ptn=${possibleSuccessor.payloadTextName},data-hpdt=${possibleSuccessor.hasPayloadDateTime},data-pdtn=${possibleSuccessor.payloadDateTimeName}"
+                       onchange="showPayload(this)"
+                       required/>
+                <p style="margin: 0.25em;">
+                    <label
+                            th:text="${possibleSuccessor.displayName}"
+                            th:for="'RADIO-' + ${possibleSuccessor.name}"/>
+                </p>
+            </div>
+
+            <div class="center-container">
+                <div class="center-child">
+                    <label id="payloadTextLabel" for="payloadText"></label>
+                    <p>
+                        <textarea id="payloadText" name="payloadText" style="display: none" maxlength="255"></textarea>
+                    </p>
+
+                    <label id="payloadDateTimeLabel" for="payloadDateTime"></label>
+                    <p>
+                        <input id="payloadDateTime" name="payloadDateTime" type="datetime-local" style="display: none"/>
+                    </p>
+                </div>
+            </div>
+            <button class="button button1" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div class="center-container">
+    <div class="center-child">
+        <a class="button button1" th:href="'/pets/'+${quarantine.pet.id}"
+           th:text="'Back to pet: '+${quarantine.pet.name}"/>
+    </div>
+</div>
+</body>
