@@ -10,3 +10,5 @@ spring:
     user:
       name: user
       password: p
+  sendgrid:
+    api-key: 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
