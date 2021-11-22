@@ -30,7 +30,8 @@
 <body>
 <div class="header">
     <a href="/track" class="logo">
-        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg"
+             style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
         HDOA Pawsome Pickup (Employee Mode)
     </a>
 </div>
@@ -41,22 +42,23 @@
 
         <table>
             <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Message</th>
-                </tr>
+            <tr>
+                <th>Time</th>
+                <th>Message</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="state: ${quarantine.states}">
-                    <td>
-                        <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}"/>
-                    </td>
-                    <td>
-                        <p th:text="${state.message}"/>
-                        <p th:if="${state.payloadText != null}" th:text="${state.payloadText}"
-                           style="margin-top: -0.5em;margin-left: 6.6em;border: solid 1px black;padding: 0.5em;display: inline-block;white-space:pre-wrap;"/>
-                    </td>
-                </tr>
+            <tr th:each="state: ${quarantine.states}">
+                <td>
+                    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}"/>
+                </td>
+                <td>
+                    <p th:text="${state.message}"/>
+                    <p th:if="${state.payloadText != null}"
+                       th:text="${state.type.payloadTextName} + ':&#10;' + ${state.payloadText}"
+                       style="margin-top: -0.5em;margin-left: 0.5em;border: solid 1px white;padding: 0.5em;display: inline-block;white-space:pre-wrap;word-break: break-word"/>
+                </td>
+            </tr>
             </tbody>
         </table>
 
@@ -66,12 +68,12 @@
     </div>
 </div>
 
-<div class="center-container">
+<div class="center-container"
+     th:if="${quarantine.currentState.type.possibleSuccessors.length > 0} and not ${collectionTimeRequestable}">
     <div class="center-child">
         <h1>Select Succeeding State</h1>
 
-        <form method="post"
-              th:if="${quarantine.currentState.type.possibleSuccessors.length > 0} and not ${collectionTimeRequestable}">
+        <form method="post">
             <input
                     type="hidden"
                     th:name="${_csrf.parameterName}"
@@ -84,7 +86,7 @@
                        th:attr="data-hpt=${possibleSuccessor.hasPayloadText},data-ptn=${possibleSuccessor.payloadTextName},data-hpdt=${possibleSuccessor.hasPayloadDateTime},data-pdtn=${possibleSuccessor.payloadDateTimeName}"
                        onchange="showPayload(this)"
                        required/>
-                <p>
+                <p style="margin: 0.25em;">
                     <label
                             th:text="${possibleSuccessor.displayName}"
                             th:for="'RADIO-' + ${possibleSuccessor.name}"/>
@@ -106,8 +108,13 @@
             </div>
             <button class="button button1" type="submit">Submit</button>
         </form>
+    </div>
+</div>
 
-        <a class="button button1" th:href="'/pets/'+${quarantine.pet.id}" th:text="'Back to pet: '+${quarantine.pet.name}"/>
+<div class="center-container">
+    <div class="center-child">
+        <a class="button button1" th:href="'/pets/'+${quarantine.pet.id}"
+           th:text="'Back to pet: '+${quarantine.pet.name}"/>
     </div>
 </div>
 </body>
