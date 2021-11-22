@@ -144,6 +144,11 @@ input{
     font-size: 16px;
 }
 
+textarea{
+    position: center;
+    font-family: 'Noto Sans', sans-serif;
+}
+
 /* Table */
 table {
     color: #F7EDDE;
