@@ -13,8 +13,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: # PLACEHOLDER #
-    password: # PLACEHOLDER'
+    username: hdoa.pawsome.pickup@gmail.com
+    password: # PLACEHOLDER #
     properties:
       mail:
         smtp:
