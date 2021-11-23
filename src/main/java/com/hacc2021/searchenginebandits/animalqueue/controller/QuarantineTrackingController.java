@@ -15,18 +15,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
 @EnableAutoConfiguration
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class QuarantineTrackingController {
-    final QuarantineService quarantineService;
 
-    final StateService stateService;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm");
+
+    private final QuarantineService quarantineService;
+
+    private final StateService stateService;
 
     @GetMapping("/track")
     public String trackQuarantine(@RequestParam(value = "trackingNo", defaultValue = "") final String trackingNo,
@@ -43,15 +46,17 @@ public class QuarantineTrackingController {
         model.addAttribute("quarantine", quarantine);
         model.addAttribute("collectionTimeRequestable",
                            quarantine.getCurrentState().getType() == StateType.COLLECTION_TIME_REQUESTABLE);
+        final LocalDateTime min = LocalDateTime.now().plusHours(3).withSecond(0).withMinute(0);
+        model.addAttribute("min", min.format(FORMATTER));
+        model.addAttribute("max", min.plusDays(5).format(FORMATTER));
         return "trackQuarantine";
     }
 
     @PostMapping("/requestCollectionTime")
-    public ModelAndView requestCollectionTime(
-            @RequestParam(value = "trackingNo", defaultValue = "") final String trackingNo,
-            @RequestParam(value = "requestedCollectionTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            final LocalDateTime requestedDateTime,
-            final Model model) {
+    public String requestCollectionTime(@RequestParam(value = "trackingNo", defaultValue = "") final String trackingNo,
+                                        @RequestParam(value = "requestedCollectionTime")
+                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                        final LocalDateTime requestedDateTime) {
         final Optional<Quarantine> possibleQuarantine = quarantineService.findByTrackingNo(trackingNo);
         if (possibleQuarantine.isEmpty()) {
             throw new NotFoundException("Quarantine not found.");
@@ -63,6 +68,6 @@ public class QuarantineTrackingController {
         stateService.addState(quarantine,
                               StateType.COLLECTION_TIME_REQUESTED,
                               new StateService.Payload(null, requestedDateTime));
-        return new ModelAndView("redirect:/track?trackingNo=" + trackingNo, model.asMap());
+        return "redirect:/track?trackingNo=" + trackingNo;
     }
 }

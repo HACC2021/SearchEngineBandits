@@ -1,33 +1,55 @@
-<title th:text="'Pet: ' + ${pet.name}"/>
-<h1 th:text="'Pet: ' + ${pet.name}"/>
-<p th:text="'Chip no.: ' + ${pet.chipNo}"/>
-<p th:text="'Owner: ' + ${pet.owner.name}"/>
+<head>
+    <link rel="stylesheet" href="/public/styles.css">
+    <title th:text="'Pet: ' + ${pet.name}"/>
+</head>
 
-<div>
-    <a th:href="'/owners/' + ${pet.owner.id}" th:text="'Back to owner: ' + ${pet.owner.name}"/>
-</div>
+<body>
+    <div class="header">
+        <a href="/track" class="logo">
+            <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+            HDOA Pawsome Pickup (Employee Mode)
+        </a>
+    </div>
 
-<h2>Quarantines</h2>
-<table>
-    <thead>
-    <tr>
-        <td>Start</td>
-        <td>End</td>
-        <td>Tracking no.</td>
-        <td></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="quarantine: ${pet.quarantines}">
-        <td th:text="${#temporals.format(quarantine.creation, 'MM/dd/yy HH:mm')}"/>
-        <td th:text="${quarantine.end} ? ${#temporals.format(quarantine.end, 'MM/dd/yy HH:mm')}"/>
-        <td><a th:href="'/track?trackingNo=' + ${quarantine.trackingNo}" th:text="${quarantine.trackingNo}"
-               target="_blank"/></td>
-        <td><a th:href="'/quarantines/' + ${quarantine.id}">Show</a></td>
-    </tr>
-    </tbody>
-</table>
+    <div class="center-container">
+        <div class="center-child">
+            <h1 class="headline"  th:text="'Pet: ' + ${pet.name}"/>
 
-<div>
-    <a th:href="'/pets/' + ${pet.id} + '/newQuarantine'">New quarantine</a>
-</div>
+            <p th:text="'Chip no.: ' + ${pet.chipNo}"/>
+            <p th:text="'Owner: ' + ${pet.owner.name}"/>
+
+            <div>
+                <a class="button button1" th:href="'/owners/' + ${pet.owner.id}" th:text="'Back to owner: ' + ${pet.owner.name}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="center-container">
+        <div class="center-child">
+            <h1>Quarantines</h1>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Tracking no.</th>
+                    <th>Pet Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="quarantine: ${pet.quarantines}">
+                    <td th:text="${#temporals.format(quarantine.creation, 'MM/dd/yy HH:mm')}"/>
+                    <td th:text="${quarantine.ending} ? ${#temporals.format(quarantine.ending, 'MM/dd/yy HH:mm')}"/>
+                    <td><a class="button button2" th:href="'/track?trackingNo=' + ${quarantine.trackingNo}" th:text="${quarantine.trackingNo}"
+                           target="_blank"/></td>
+                    <td><a class="button button2" th:href="'/quarantines/' + ${quarantine.id}">Show</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a class="button button1" th:href="'/pets/' + ${pet.id} + '/newQuarantine'">New Quarantine</a>
+
+        </div>
+    </div>
+</body>

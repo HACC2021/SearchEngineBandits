@@ -31,16 +31,14 @@ body {
 
 /* Used for Centering */
 .center-container {
-    height: 90%;
-    position: relative;
+    width: 100%;
     text-align: center;
 }
 
 .center-child {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: inline-block;
+    margin: 0 auto;
+    padding: 3px;
 }
 
 /* Button Styles */
@@ -67,6 +65,17 @@ body {
 }
 
 .button1:hover {
+    background-color: #55868C;
+    color: #F7EDDE;
+}
+
+.button2 {
+    background-color: #55868C;
+    color: #F7EDDE;
+    border: 2px solid #55868C;
+}
+
+.button2:hover {
     background-color: #55868C;
     color: #F7EDDE;
 }
@@ -123,7 +132,7 @@ body {
 }
 
 /* Input Box*/
-input[type=text] {
+input{
     padding: 5px 5px;
     height: 30px;
     width: 75%;
@@ -135,10 +144,22 @@ input[type=text] {
     font-size: 16px;
 }
 
+textarea{
+    font-family: 'Noto Sans', sans-serif;
+    width: 30em;
+    height: 15em;
+    min-height: 5em;
+    resize: vertical;
+}
+
 /* Table */
 table {
     color: #F7EDDE;
     width: 100%;
+}
+
+thead tr th{
+    background-color: #55868C;
 }
 
 td {
@@ -177,9 +198,6 @@ tr:nth-child(even) {
 
 p.multiline {
     white-space: pre-wrap;
-    line-height: 0.7;
+    line-height: 1;
+    word-break: break-word;
 }
-
-
-
-

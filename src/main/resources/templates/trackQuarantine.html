@@ -1,11 +1,17 @@
 <head>
     <link rel="stylesheet" href="public/styles.css">
-    <title th:text="'Quarantine history of ' + ${quarantine.pet.name}"/>
+    <title th:text="'Quarantine History of ' + ${quarantine.pet.name}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 <div class="header">
-    <a href="/track" class="logo">HDOA Pawsome Pickup</a>
+    <a href="/track" class="logo">
+        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg"
+             style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+        HDOA Pawsome Pickup
+    </a>
+
     <div class="header-right">
         <a class="active" href="/track">Track Pet</a> <!-- Current Active Page -->
         <a href="#">Information</a>
@@ -17,38 +23,48 @@
     <div class="center-child">
 
         <!-- I would love to include a status bar for pet -->
-        <h1 class="headline" th:text="'Current status of ' + ${quarantine.pet.name}"/>
+        <h1 class="headline" th:text="'Current Status of ' + ${quarantine.pet.name}"/>
         <h2 th:text="${quarantine.currentState.message}"/>
         <div id="progressbar">
             <div class="inner-progressbar"
-                 th:attr="style='width: ' + ${quarantine.currentState.type.progress} +'%'"></div>
+                 th:attr="style='width: ' + ${quarantine.currentState.type.progress} +'%'">
+            </div>
         </div>
 
-        <h1 th:text="'Quarantine history of ' + ${quarantine.pet.name}"/>
+        <h1 th:text="'Quarantine History of ' + ${quarantine.pet.name}"/>
 
         <div th:if="${collectionTimeRequestable}" class="collectionTimeRequest">
             <h2>Request collection time</h2>
             <form th:attr="action='/requestCollectionTime?trackingNo=' + ${quarantine.trackingNo}" method="post">
 
                 <label id="requestedCollectionTimeLabel" for="requestedCollectionTime"></label>
-                <input id="requestedCollectionTime" name="requestedCollectionTime" type="datetime-local"/>
+                <input id="requestedCollectionTime" name="requestedCollectionTime" type="datetime-local"
+                       required
+                       th:attr="min=${min},max=${max}"
+                       step="900"/>
 
-                <button type="submit">Submit</button>
+                <button class="button button1" type="submit">Submit</button>
             </form>
         </div>
 
         <table>
+            <thead>
             <tr>
                 <th>Date and Time</th>
                 <th>Message</th>
             </tr>
+            </thead>
+            <tbody>
             <tr th:each="state: ${quarantine.states}">
                 <td th:text="${#temporals.format(state.creation, 'MM/dd/yy')} + ' at ' + ${#temporals.format(state.creation, 'HH:mm a')}"/>
                 <td>
                     <p th:text="${state.message}"/>
+                    <p th:if="${state.payloadText != null}" th:text="${state.type.payloadTextName} + ':'"
+                       style="font-style: italic"/>
                     <p th:if="${state.payloadText != null}" th:text="${state.payloadText}" class="multiline"/>
                 </td>
             </tr>
+            </tbody>
         </table>
 
     </div>
