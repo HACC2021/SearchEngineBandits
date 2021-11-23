@@ -9,25 +9,26 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
-    public UserDetailsService adminDetailsService(){
+    public UserDetailsService adminDetailsService() {
         return new MyAdminDetailsServiceImpl();
     }
 
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    @SuppressWarnings({"squid:S1874", "deprecation"})
+    public static NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(adminDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
@@ -35,22 +36,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) {
-        web.ignoring().antMatchers("/track/**", "/requestCollectionTime/**", "/public/**", "/error/**");
+        web.ignoring().antMatchers("/", "/track/**", "/requestCollectionTime/**", "/public/**", "/error/**");
     }
 
     @Override
-    public void configure(final AuthenticationManagerBuilder auth){
+    public void configure(final AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll()
-                .and()
-                .logout().permitAll();
+            .anyRequest()
+            .authenticated()
+            .and()
+            .formLogin()
+            .defaultSuccessUrl("/owners")
+            .and()
+            .logout()
+            .permitAll();
     }
 }

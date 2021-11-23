@@ -31,6 +31,11 @@ public class QuarantineTrackingController {
 
     private final StateService stateService;
 
+    @GetMapping("/")
+    public String redirectToTracking() {
+        return "redirect:/track";
+    }
+
     @GetMapping("/track")
     public String trackQuarantine(@RequestParam(value = "trackingNo", defaultValue = "") final String trackingNo,
                                   final Model model) {
