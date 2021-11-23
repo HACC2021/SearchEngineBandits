@@ -1,39 +1,42 @@
 package com.hacc2021.searchenginebandits.animalqueue.service.impl;
 
+import com.hacc2021.searchenginebandits.animalqueue.model.Owner;
 import com.hacc2021.searchenginebandits.animalqueue.service.api.NotificationService;
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.SendGrid;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Slf4j
 public class NotificationServiceImpl implements NotificationService {
 
-    private final SendGrid sendGrid;
+    private final JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String fromEmailAddress;
 
     @Override
-    public void sendNotification(final String toEmail, final String subject, final String htmlMessage) {
+    public void sendNotification(final Owner owner, final String subject, final String htmlMessage) {
         try {
-            final Email from = new Email("lehlers1@my.hpu.edu");
-            final Email to = new Email(toEmail);
-            final Content content = new Content("text/html", htmlMessage);
-            final Mail mail = new Mail(from, subject, to, content);
-            final Request request = new Request();
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            sendGrid.api(request);
-        } catch (final IOException e) {
+            final MimeMessage mimeMessage = mailSender.createMimeMessage();
+            final InternetAddress to = new InternetAddress(owner.getEmailAddress(), owner.getName());
+            final InternetAddress from = new InternetAddress(fromEmailAddress, "HDOA Pawsome Pickup");
+            mimeMessage.addRecipient(Message.RecipientType.TO, to);
+            mimeMessage.setFrom(from);
+            mimeMessage.setSubject(subject);
+            mimeMessage.setContent(htmlMessage, "text/html");
+            mailSender.send(mimeMessage);
+        } catch (final MessagingException | UnsupportedEncodingException e) {
             log.error("Failed to send email message.", e);
         }
     }

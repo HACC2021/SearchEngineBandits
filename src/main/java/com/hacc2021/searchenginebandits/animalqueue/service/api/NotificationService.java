@@ -1,5 +1,7 @@
 package com.hacc2021.searchenginebandits.animalqueue.service.api;
 
+import com.hacc2021.searchenginebandits.animalqueue.model.Owner;
+
 public interface NotificationService {
-    void sendNotification(String toEmail, String subject, String message);
+    void sendNotification(Owner owner, String subject, String message);
 }

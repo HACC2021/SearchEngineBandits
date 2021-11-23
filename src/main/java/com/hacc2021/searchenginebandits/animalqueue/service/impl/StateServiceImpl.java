@@ -48,8 +48,8 @@ public class StateServiceImpl implements StateService {
         stateRepository.save(state);
         stateRepository.flush();
 
-        notificationService.sendNotification(quarantine.getPet().getOwner().getEmailAddress(),
-                                             "PDOA Pawsome Pickup: " + state.getType().getDisplayName(),
+        notificationService.sendNotification(quarantine.getPet().getOwner(),
+                                             state.getType().getDisplayName(),
                                              constructHtmlMessage(state));
     }
 
