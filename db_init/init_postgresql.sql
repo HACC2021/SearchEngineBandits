@@ -43,3 +43,6 @@ CREATE TABLE ADMIN
     PASSWORD varchar(50) NOT NULL,
     ROLE     varchar(20)
 );
+
+insert into ADMIN
+values (1, 'Admin', 'pass', 'ADMIN')
