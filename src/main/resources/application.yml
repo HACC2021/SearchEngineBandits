@@ -10,5 +10,14 @@ spring:
     user:
       name: user
       password: p
-  sendgrid:
-    api-key: ## PLACEHOLDER ##
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: # PLACEHOLDER #
+    password: # PLACEHOLDER'
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
