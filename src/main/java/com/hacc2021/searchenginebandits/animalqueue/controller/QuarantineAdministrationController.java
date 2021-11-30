@@ -37,11 +37,15 @@ public class QuarantineAdministrationController {
 
     @GetMapping("/quarantines/{quarantineId}")
     public String manageQuarantine(@PathVariable("quarantineId") final int quarantineId, final Model model) {
-        final Quarantine quarantine = findQuarantine(quarantineId);
-        model.addAttribute("quarantine", quarantine);
-        model.addAttribute("collectionTimeRequestable",
-                           quarantine.getCurrentState().getType() == StateType.COLLECTION_TIME_REQUESTABLE);
-        return "manageQuarantine";
+        try {
+            final Quarantine quarantine = findQuarantine(quarantineId);
+            model.addAttribute("quarantine", quarantine);
+            model.addAttribute("collectionTimeRequestable",
+                               quarantine.getCurrentState().getType() == StateType.COLLECTION_TIME_REQUESTABLE);
+            return "manageQuarantine";
+        } catch (final NotFoundException e) {
+            return "redirect:/owners";
+        }
     }
 
     @PostMapping("/quarantines/{quarantineId}")
@@ -73,7 +77,7 @@ public class QuarantineAdministrationController {
                                          quarantine.getCurrentState().getMessage(),
                                          formatDateTime(quarantine.getCreation()),
                                          formatDateTime(quarantine.getEnding())));
-        model.addAttribute("deletionUrl", "/quarantines/" + quarantineId);
+        model.addAttribute("redirect", "/pets/" + quarantine.getPet().getId());
         return "confirmDeletion";
     }
 

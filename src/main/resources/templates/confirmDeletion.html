@@ -20,7 +20,7 @@
         http.setRequestHeader(csrfHeader, csrfToken);
         http.onload = ev => {
             if (ev.target.status === 200) {
-                history.back();
+                location.href = button.dataset.redirect;
             } else {
                 alert("An error occurred while trying to delete this...");
             }
@@ -51,7 +51,7 @@
         <p th:text="${description}" class="multiline"/>
 
         <a class="button button1" onclick="executeDeletion(this);"
-           th:attr="data-csrfheader=${_csrf.getHeaderName()},data-csrftoken=${_csrf.getToken()}">
+           th:attr="data-csrfheader=${_csrf.getHeaderName()},data-csrftoken=${_csrf.getToken()},data-redirect=${redirect}">
             Confirm deletion
         </a>
     </div>

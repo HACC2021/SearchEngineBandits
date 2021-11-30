@@ -30,6 +30,7 @@
                     <th>Email address</th>
                     <th>Phone number</th>
                     <th>List Pets</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,6 +39,10 @@
                     <td th:text="${owner.emailAddress}"/>
                     <td th:text="${owner.phoneNumber}"/>
                     <td><a class="button button2" th:href="'/owners/' + ${owner.id}">Show</a></td>
+                    <td>
+                        <a class="button button2" th:href="'/owners/' + ${owner.id} + '/delete'"
+                           title="Delete">🗑</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

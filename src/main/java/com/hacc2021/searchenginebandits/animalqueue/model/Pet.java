@@ -24,7 +24,7 @@ public class Pet extends AbstractEntity {
     @Column(name = "CHIP_NO", length = 50)
     private String chipNo;
 
-    @OneToMany(mappedBy = "pet")
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
     private List<Quarantine> quarantines = new ArrayList<>();
 
     public Pet(final Owner owner, final String name, final String chipNo) {
