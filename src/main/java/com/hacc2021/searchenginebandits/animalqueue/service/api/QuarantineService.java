@@ -13,4 +13,6 @@ public interface QuarantineService {
     void createQuarantine(Pet pet);
 
     void endQuarantine(Quarantine quarantine);
+
+    void deleteQuarantine(Quarantine quarantine);
 }

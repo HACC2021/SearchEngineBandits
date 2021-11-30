@@ -43,6 +43,7 @@
                     <th>End</th>
                     <th>Tracking no.</th>
                     <th>Pet Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,6 +53,8 @@
                     <td><a class="button button2" th:href="'/track?trackingNo=' + ${quarantine.trackingNo}" th:text="${quarantine.trackingNo}"
                            target="_blank"/></td>
                     <td><a class="button button2" th:href="'/quarantines/' + ${quarantine.id}">Show</a></td>
+                    <td><a class="button button2" th:href="'/quarantines/' + ${quarantine.id} + '/delete'"
+                           title="Delete">🗑</a></td>
                 </tr>
                 </tbody>
             </table>

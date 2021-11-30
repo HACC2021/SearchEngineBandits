@@ -1,0 +1,65 @@
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/public/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="/public/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="msapplication-config" content="/public/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/public/styles.css">
+    <title th:text="'Confirm deletion - HDOA Pawsome Pickup'"/>
+</head>
+
+<script>
+    function executeDeletion(button) {
+        let csrfHeader = button.dataset.csrfheader;
+        let csrfToken = button.dataset.csrftoken;
+        let http = new XMLHttpRequest();
+        http.open("DELETE", location.href);
+        http.setRequestHeader(csrfHeader, csrfToken);
+        http.onload = ev => {
+            if (ev.target.status === 200) {
+                history.back();
+            } else {
+                alert("An error occurred while trying to delete this...");
+            }
+        };
+        http.send();
+    }
+</script>
+
+<body>
+<div class="header">
+    <a href="/track" class="logo">
+        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg"
+             style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+        HDOA Pawsome Pickup (Employee Mode)
+    </a>
+
+    <div class="header-right">
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="center-container">
+    <div class="center-child">
+        <h1>Confirm deletion</h1>
+        <p>Are you sure that you want to delete the following? This action can not be undone.</p>
+
+        <h2 th:text="${name}"/>
+        <p th:text="${description}" class="multiline"/>
+
+        <a class="button button1" onclick="executeDeletion(this);"
+           th:attr="data-csrfheader=${_csrf.getHeaderName()},data-csrftoken=${_csrf.getToken()}">
+            Confirm deletion
+        </a>
+    </div>
+</div>
+
+<div class="center-container">
+    <div class="center-child">
+        <a class="button button1" onclick="history.back()">Cancel</a>
+    </div>
+</div>
+</body>

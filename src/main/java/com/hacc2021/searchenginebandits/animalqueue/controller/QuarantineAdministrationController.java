@@ -14,12 +14,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Optional;
 
 @Controller
@@ -27,19 +26,18 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Slf4j
 public class QuarantineAdministrationController {
-    final PetService petService;
 
-    final QuarantineService quarantineService;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yy' at 'hh:mm a", Locale.US);
 
-    final StateService stateService;
+    private final PetService petService;
+
+    private final QuarantineService quarantineService;
+
+    private final StateService stateService;
 
     @GetMapping("/quarantines/{quarantineId}")
     public String manageQuarantine(@PathVariable("quarantineId") final int quarantineId, final Model model) {
-        final Optional<Quarantine> possibleQuarantine = quarantineService.findById(quarantineId);
-        if (possibleQuarantine.isEmpty()) {
-            throw new NotFoundException("Quarantine not found.");
-        }
-        final Quarantine quarantine = possibleQuarantine.get();
+        final Quarantine quarantine = findQuarantine(quarantineId);
         model.addAttribute("quarantine", quarantine);
         model.addAttribute("collectionTimeRequestable",
                            quarantine.getCurrentState().getType() == StateType.COLLECTION_TIME_REQUESTABLE);
@@ -53,11 +51,7 @@ public class QuarantineAdministrationController {
                                         @RequestParam(value = "payloadDateTime", required = false)
                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                         final LocalDateTime payloadDateTime) {
-        final Optional<Quarantine> possibleQuarantine = quarantineService.findById(quarantineId);
-        if (possibleQuarantine.isEmpty()) {
-            throw new NotFoundException("Quarantine not found.");
-        }
-        final Quarantine quarantine = possibleQuarantine.get();
+        final Quarantine quarantine = findQuarantine(quarantineId);
         stateService.addState(quarantine,
                               succeedingState,
                               new StateService.Payload(succeedingState.hasPayloadText() ? payloadText : null,
@@ -70,6 +64,28 @@ public class QuarantineAdministrationController {
         return "redirect:/quarantines/" + quarantineId;
     }
 
+    @GetMapping("/quarantines/{quarantineId}/delete")
+    public String confirmQuarantineDeletion(@PathVariable("quarantineId") final int quarantineId, final Model model) {
+        final Quarantine quarantine = findQuarantine(quarantineId);
+        model.addAttribute("name", String.format("Quarantine of %s", quarantine.getPet().getName()));
+        model.addAttribute("description",
+                           String.format("Current state: %s%nCreation: %s%nEnding: %s",
+                                         quarantine.getCurrentState().getMessage(),
+                                         formatDateTime(quarantine.getCreation()),
+                                         formatDateTime(quarantine.getEnding())));
+        model.addAttribute("deletionUrl", "/quarantines/" + quarantineId);
+        return "confirmDeletion";
+    }
+
+    @DeleteMapping("/quarantines/{quarantineId}/delete")
+    @ResponseBody
+    public String deleteQuarantine(@PathVariable("quarantineId") final int quarantineId) {
+        final Quarantine quarantine = findQuarantine(quarantineId);
+        final int petId = quarantine.getPet().getId();
+        quarantineService.deleteQuarantine(quarantine);
+        return "redirect:/pets/" + petId;
+    }
+
     @GetMapping("/pets/{petId}/newQuarantine")
     public String createQuarantine(@PathVariable("petId") final int petId) {
         final Optional<Pet> possiblePet = petService.findById(petId);
@@ -79,6 +95,21 @@ public class QuarantineAdministrationController {
         final Pet pet = possiblePet.get();
         quarantineService.createQuarantine(pet);
         return "redirect:/pets/" + petId;
+    }
+
+    private Quarantine findQuarantine(@PathVariable("quarantineId") final int quarantineId) {
+        final Optional<Quarantine> possibleQuarantine = quarantineService.findById(quarantineId);
+        if (possibleQuarantine.isEmpty()) {
+            throw new NotFoundException("Quarantine not found.");
+        }
+        return possibleQuarantine.get();
+    }
+
+    private static String formatDateTime(final LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return "";
+        }
+        return FORMATTER.format(dateTime);
     }
 
 }

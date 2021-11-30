@@ -121,6 +121,8 @@
 
 <div class="center-container">
     <div class="center-child">
+        <a class="button button1" th:href="'/quarantines/'+${quarantine.id} + '/delete'"
+           th:text="'Delete quarantine'"/>
         <a class="button button1" th:href="'/pets/'+${quarantine.pet.id}"
            th:text="'Back to pet: '+${quarantine.pet.name}"/>
     </div>
