@@ -38,10 +38,13 @@
 <body>
 <div class="header">
     <a href="/track" class="logo">
-        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg"
-             style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
+        <img id="seal" src="/public/Seal_of_the_State_of_Hawaii.svg" style="margin: auto; vertical-align: middle; display: inline-block; width: 75px;" alt="Hawaii State Seal">
         HDOA Pawsome Pickup (Employee Mode)
     </a>
+
+    <div class="header-right">
+        <a href="/logout">Logout</a>
+    </div>
 </div>
 
 <div class="center-container">
@@ -58,7 +61,7 @@
             <tbody>
             <tr th:each="state: ${quarantine.states}">
                 <td>
-                    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy HH:mm')}"/>
+                    <p th:text="${#temporals.format(state.creation, 'MM/dd/yy hh:mm a')}"/>
                 </td>
                 <td>
                     <p th:text="${state.message}"/>

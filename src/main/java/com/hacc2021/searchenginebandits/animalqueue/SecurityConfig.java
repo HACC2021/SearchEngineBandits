@@ -36,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) {
-        web.ignoring().antMatchers("/", "/track/**", "/requestCollectionTime/**", "/public/**", "/error/**");
+        web.ignoring()
+           .antMatchers("/", "/track/**", "/requestCollectionTime/**", "/public/**", "/error/**", "/information");
     }
 
     @Override

@@ -22,8 +22,8 @@
 
     <div class="header-right">
         <a class="active" href="/track">Track Pet</a> <!-- Current Active Page -->
-        <a href="#">Information</a>
-        <a href="/login">Login</a>
+        <a href="/information">Information</a>
+        <a href="/login">Employee Login</a>
     </div>
 </div>
 
@@ -58,13 +58,13 @@
         <table>
             <thead>
             <tr>
-                <th>Date and Time</th>
+                <th>Date and Time (HST)</th>
                 <th>Message</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="state: ${quarantine.states}">
-                <td th:text="${#temporals.format(state.creation, 'MM/dd/yy')} + ' at ' + ${#temporals.format(state.creation, 'HH:mm a')}"/>
+                <td th:text="${#temporals.format(state.creation, 'MM/dd/yy')} + ' at ' + ${#temporals.format(state.creation, 'hh:mm a')}"/>
                 <td>
                     <p th:text="${state.message}"/>
                     <p th:if="${state.payloadText != null}" th:text="${state.type.payloadTextName} + ':'"
