@@ -19,7 +19,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
     @RequestMapping("/error")
     public ModelAndView handleError(final HttpServletRequest request) {
         final Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        log.error("Catched error {}", statusCode);
+        log.error("Catched error {} at {} request", statusCode, request.getMethod());
 
         final ModelAndView mav = new ModelAndView("error");
         mav.addObject("statusCode", statusCode);

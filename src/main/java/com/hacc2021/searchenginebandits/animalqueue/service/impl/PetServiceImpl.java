@@ -29,4 +29,9 @@ public class PetServiceImpl implements PetService {
         petRepository.save(pet);
         petRepository.flush();
     }
+
+    @Override
+    public void deletePet(final Pet pet) {
+        petRepository.delete(pet);
+    }
 }

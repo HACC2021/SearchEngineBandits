@@ -9,4 +9,6 @@ public interface PetService {
     Optional<Pet> findById(int petId);
 
     void createPet(final Owner owner, String name, String chipNo);
+
+    void deletePet(Pet pet);
 }

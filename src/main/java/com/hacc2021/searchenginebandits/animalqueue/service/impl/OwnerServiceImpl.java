@@ -34,4 +34,9 @@ public class OwnerServiceImpl implements OwnerService {
     public Optional<Owner> findById(final int ownerId) {
         return ownerRepository.findById(ownerId);
     }
+
+    @Override
+    public void deleteOwner(final Owner owner) {
+        ownerRepository.delete(owner);
+    }
 }

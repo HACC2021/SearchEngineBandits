@@ -28,7 +28,7 @@ public class Quarantine extends AbstractEntity {
     @Column(name = "ENDING")
     private LocalDateTime ending;
 
-    @OneToMany(mappedBy = "quarantine")
+    @OneToMany(mappedBy = "quarantine", cascade = CascadeType.ALL)
     private List<State> states = new ArrayList<>();
 
     public Quarantine(final Pet pet, final String trackingNo, final LocalDateTime creation) {

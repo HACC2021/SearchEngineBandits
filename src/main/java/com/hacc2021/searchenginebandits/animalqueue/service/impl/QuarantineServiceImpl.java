@@ -54,6 +54,11 @@ public class QuarantineServiceImpl implements QuarantineService {
         quarantineRepository.flush();
     }
 
+    @Override
+    public void deleteQuarantine(final Quarantine quarantine) {
+        quarantineRepository.delete(quarantine);
+    }
+
     private String createTrackingNo(final Pet pet) {
         int i = 0;
         while (true) {
