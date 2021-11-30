@@ -8,6 +8,7 @@
     <meta name="msapplication-config" content="/public/favicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="/public/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="'Confirm deletion - HDOA Pawsome Pickup'"/>
 </head>
 
@@ -44,13 +45,13 @@
 
 <div class="center-container">
     <div class="center-child">
-        <h1>Confirm deletion</h1>
+        <h1>Confirm Deletion</h1>
         <p>Are you sure that you want to delete the following? This action can not be undone.</p>
 
         <h2 th:text="${name}"/>
         <p th:text="${description}" class="multiline"/>
 
-        <a class="button button1" onclick="executeDeletion(this);"
+        <a class="button button3" onclick="executeDeletion(this);"
            th:attr="data-csrfheader=${_csrf.getHeaderName()},data-csrftoken=${_csrf.getToken()},data-redirect=${redirect}">
             Confirm deletion
         </a>

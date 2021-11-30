@@ -8,6 +8,7 @@
     <meta name="msapplication-config" content="/public/favicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="/public/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="'Owner: ' + ${owner.name} + ' - HDOA Pawsome Pickup'"/>
 </head>
 
@@ -31,7 +32,7 @@
         <p th:text="'Phone number: ' + ${owner.phoneNumber}"/>
 
 
-        <a class="button button1" th:href="'/owners/'+${owner.id} + '/delete'">Delete owner</a>
+        <a class="button button3" th:href="'/owners/'+${owner.id} + '/delete'">Delete owner</a>
         <a class="button button1" href="/owners">Back to owner list</a>
     </div>
 </div>
@@ -56,7 +57,7 @@
                     <td th:text="${pet.chipNo}"/>
                     <td><a class="button button2" th:href="'/pets/' + ${pet.id}">Show</a></td>
                     <td>
-                        <a class="button button2" th:href="'/pets/' + ${pet.id} + '/delete'"
+                        <a class="button button4" th:href="'/pets/' + ${pet.id} + '/delete'"
                            title="Delete">🗑</a>
                     </td>
                 </tr>

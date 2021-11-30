@@ -8,6 +8,7 @@
     <meta name="msapplication-config" content="/public/favicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="/public/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="'Manage Quarantine of ' + ${quarantine.pet.name} + ' - HDOA Pawsome Pickup'"/>
 </head>
 
@@ -124,7 +125,7 @@
 
 <div class="center-container">
     <div class="center-child">
-        <a class="button button1" th:href="'/quarantines/'+${quarantine.id} + '/delete'"
+        <a class="button button3" th:href="'/quarantines/'+${quarantine.id} + '/delete'"
            th:text="'Delete quarantine'"/>
         <a class="button button1" th:href="'/pets/'+${quarantine.pet.id}"
            th:text="'Back to pet: '+${quarantine.pet.name}"/>

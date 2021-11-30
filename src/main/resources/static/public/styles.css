@@ -11,6 +11,7 @@ Color Scheme:
     Coyote Brown: 83622D (Accent Color)
     Old Lace: F7EDDE (Webpage Background Color)
     Steel Teal: 55868C (Accent Color)
+    Antique Ruby: 91122B
 */
 
 /* Font/Color Set Up */
@@ -77,6 +78,28 @@ body {
 
 .button2:hover {
     background-color: #55868C;
+    color: #F7EDDE;
+}
+
+.button3 {
+    background-color: #F7EDDE;
+    color: #41393A;
+    border: 2px solid #91122B;
+}
+
+.button3:hover {
+    background-color: #91122B;
+    color: #F7EDDE;
+}
+
+.button4 {
+    background-color: #91122B;
+    color: #F7EDDE;
+    border: 2px solid #91122B;
+}
+
+.button4:hover {
+    background-color: #91122B;
     color: #F7EDDE;
 }
 
